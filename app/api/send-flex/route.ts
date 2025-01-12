@@ -29,7 +29,13 @@ export async function POST(req: Request) {
         );
 
         return new Response(JSON.stringify({ success: true, data: response.data }), { status: 200 });
-    } catch (error: any) {
-        return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
+    } catch (error: unknown) {
+        let errorMessage = 'An unknown error occurred';
+        if (axios.isAxiosError(error) && error.response?.data?.message) {
+            errorMessage = error.response.data.message;
+        } else if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        return new Response(JSON.stringify({ success: false, error: errorMessage }), { status: 500 });
     }
 }

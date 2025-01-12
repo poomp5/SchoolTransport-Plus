@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[520],{6252:(e,i,n)=>{Promise.resolve().then(n.bind(n,2386))},2386:(e,i,n)=>{"use strict";n.r(i),n.d(i,{default:()=>s});var l=n(5155);let o=()=>{window.location.href="/api/line-login"},s=()=>(0,l.jsx)("button",{onClick:o,children:"Login with Line"})}},e=>{var i=i=>e(e.s=i);e.O(0,[441,517,358],()=>i(6252)),_N_E=e.O()}]);
