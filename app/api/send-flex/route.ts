@@ -10,7 +10,7 @@ export async function POST(req: Request) {
         messages: [
             {
                 type: 'flex',
-                altText: 'This is a Flex Message',
+                altText: 'test1',
                 contents: messageContent,
             },
         ],
