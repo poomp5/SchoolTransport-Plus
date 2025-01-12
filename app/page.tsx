@@ -1,7 +1,23 @@
 'use client';
 
 const sendFlexMessage = async () => {
-  const flexMessageContent = {
+  interface FlexMessageContent {
+    type: string;
+    body: {
+      type: string;
+      layout: string;
+      contents: Array<{
+        type: string;
+        text: string;
+        weight?: string;
+        size?: string;
+        color?: string;
+        wrap?: boolean;
+      }>;
+    };
+  }
+
+  const flexMessageContent: FlexMessageContent = {
     type: 'bubble',
     body: {
       type: 'box',
