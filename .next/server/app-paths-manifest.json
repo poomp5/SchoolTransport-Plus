@@ -1,1 +1,8 @@
-{}
+{
+  "/api/weather/route": "app/api/weather/route.js",
+  "/api/pmdata/route": "app/api/pmdata/route.js",
+  "/contact/page": "app/contact/page.js",
+  "/page": "app/page.js",
+  "/overview/page": "app/overview/page.js",
+  "/status/page": "app/status/page.js"
+}

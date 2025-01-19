@@ -16,8 +16,8 @@ const ContactPage: React.FC = () => {
     return (
         <div className="flex flex-col items-center p-4">
             <h1 className="text-3xl font-extrabold mb-6 mt-4 text-center text-gray-800">ติดต่อแอดมิน | LIVE CHAT</h1>
-            <div className="border border-gray-300 p-4 w-full max-w-md md:max-w-screen-xl rounded-lg">
-                <div className="h-[70vh] overflow-y-scroll border-b border-gray-300 mb-4">
+            <div className="bg-white border border-gray-300 p-4 w-full max-w-md md:max-w-screen-xl rounded-2xl">
+                <div className="h-[50vh] overflow-y-scroll border-b border-gray-300 mb-4">
                     {messages.map((message, index) => (
                         <div key={index} className="flex items-start gap-2.5 justify-end mb-4">
                             <div className="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-s-xl rounded-se-xl">
