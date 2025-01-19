@@ -39,8 +39,8 @@ const stats: StatItem[] = [
 
 export default function Page() {
     return (
-        <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4 p-4">สถิติการใช้งานรถรับส่ง</h2>
+        <div className="p-4 bg-gray-100">
+            <h2 className="text-2xl font-bold mb-4 text-gray-700">สถิติการใช้งานรถรับส่ง</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {stats.map((stat, index) => (
                     <div key={index} className="bg-white p-4 rounded-xl shadow-sm">
@@ -54,20 +54,18 @@ export default function Page() {
                     </div>
                 ))}
             </div>
-            <div className="p-4">
-                <h2 className="text-xl font-bold mb-4">สถานะของรถ</h2>
-                <div className="bg-white p-0 rounded-xl shadow-sm">
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between p-2 bg-green-50 rounded-2xl border border-1 border-green-200  ">
-                            <div className="flex items-center px-4">
-                                <div className="text-green-600 mr-6">ACT07</div>
-                                <div>
-                                    <p className="font-semibold">นายทดสอบ ระบบ</p>
-                                    <p className="text-sm text-gray-500">อยู่ในเส้นทาง</p>
-                                </div>
+            <h2 className="text-xl font-bold mb-4 text-gray-700 mt-2">สถานะของรถ</h2>
+            <div className="bg-whiterounded-xl shadow-sm">
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between p-2 bg-green-50 rounded-2xl border border-1 border-green-200  ">
+                        <div className="flex items-center px-4">
+                            <div className="text-green-600 mr-6">ACT07</div>
+                            <div>
+                                <p className="font-semibold">นายทดสอบ ระบบ</p>
+                                <p className="text-sm text-gray-500">อยู่ในเส้นทาง</p>
                             </div>
-                            <span className="text-green-600 font-medium px-4">ปกติ</span>
                         </div>
+                        <span className="text-green-600 font-medium px-4">ปกติ</span>
                     </div>
                 </div>
             </div>

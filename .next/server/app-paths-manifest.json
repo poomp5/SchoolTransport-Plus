@@ -1,11 +1,1 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/line-login/route": "app/api/line-login/route.js",
-  "/api/callback/route": "app/api/callback/route.js",
-  "/api/send-flex/route": "app/api/send-flex/route.js",
-  "/login/page": "app/login/page.js",
-  "/overview/page": "app/overview/page.js",
-  "/page": "app/page.js",
-  "/status/page": "app/status/page.js",
-  "/contact/page": "app/contact/page.js"
-}
+{}

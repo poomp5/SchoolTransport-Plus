@@ -23,7 +23,7 @@ const StatusCard = () => {
                             />
                         </div>
                         <div>
-                            <h1 className="text-lg font-semibold">ปุญญพัฒน์ กูลมนุญ</h1>
+                            <h1 className="text-gray-700 text-lg font-semibold">ปุญญพัฒน์ กูลมนุญ</h1>
                             <p className="text-gray-600 text-sm">โรงเรียนอัสสัมชัญธนบุรี</p>
                         </div>
                     </div>
@@ -33,22 +33,22 @@ const StatusCard = () => {
                         <div className="flex-1 relative">
                             <div className="h-1 bg-green-500"></div>
                             <div className="absolute -top-2 left-0 w-4 h-4 rounded-full bg-green-500"></div>
-                            <p className="absolute -top-8 left-0 text-sm text-gray-600 whitespace-nowrap">ออกเดินทาง</p>
+                            <p className="absolute -top-8 left-0 text-xs md:text-sm text-gray-600 whitespace-nowrap">ออกเดินทาง</p>
                         </div>
                         <div className="flex-1 relative">
                             <div className="h-1 bg-green-500"></div>
                             <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-green-500"></div>
-                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-600 whitespace-nowrap">รับนักเรียนคนอื่น</p>
+                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs md:text-sm text-gray-600 whitespace-nowrap">รับนักเรียนคนอื่น</p>
                         </div>
                         <div className="flex-1 relative">
                             <div className="h-1 bg-green-500"></div>
                             <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-green-500"></div>
-                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-sm text-gray-600 whitespace-nowrap">อยู่ในเส้นทาง</p>
+                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs md:text-sm text-gray-600 whitespace-nowrap">อยู่ในเส้นทาง</p>
                         </div>
                         <div className="flex-1 relative">
                             <div className="h-1 bg-gray-300"></div>
                             <div className="absolute -top-2 right-0 w-4 h-4 rounded-full bg-gray-300"></div>
-                            <p className="absolute -top-8 right-0 text-sm text-gray-600 whitespace-nowrap">ถึงจุดหมาย</p>
+                            <p className="absolute -top-8 right-0 text-xs md:text-sm text-gray-600 whitespace-nowrap">ถึงจุดหมาย</p>
                         </div>
                     </div>
                     <div className="bg-gray-50 rounded-xl p-6 space-y-4">
@@ -57,21 +57,21 @@ const StatusCard = () => {
                                 <Clock className="w-5 h-5 text-gray-600" />
                                 <span className="text-gray-600">รถกำลังจะมารับในอีก</span>
                             </div>
-                            <div className="text-xl font-semibold">5 นาที</div>
+                            <div className="text-xl font-semibold text-gray-600">5 นาที</div>
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <Navigation className="w-5 h-5 text-gray-600" />
                                 <span className="text-gray-600">ระยะทาง</span>
                             </div>
-                            <div className="text-xl font-semibold">2.4 Km</div>
+                            <div className="text-xl font-semibold text-gray-600">2.4 Km</div>
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <MapPin className="w-5 h-5 text-gray-600" />
                                 <span className="text-gray-600">เวลาเดินทาง</span>
                             </div>
-                            <div className="text-xl font-semibold">20 นาที</div>
+                            <div className="text-xl font-semibold text-gray-600">20 นาที</div>
                         </div>
                     </div>
                     <button
