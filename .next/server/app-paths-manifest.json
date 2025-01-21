@@ -1,13 +1,5 @@
 {
-  "/api/line-login/route": "app/api/line-login/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/callback/route": "app/api/callback/route.js",
-  "/api/pmdata/route": "app/api/pmdata/route.js",
-  "/api/send-flex/route": "app/api/send-flex/route.js",
   "/api/weather/route": "app/api/weather/route.js",
-  "/login/page": "app/login/page.js",
-  "/overview/page": "app/overview/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/status/page": "app/status/page.js",
+  "/api/pmdata/route": "app/api/pmdata/route.js",
   "/page": "app/page.js"
 }

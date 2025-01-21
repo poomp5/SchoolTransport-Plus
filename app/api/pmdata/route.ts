@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
     try {
         const response = await fetch(
-            `https://api.waqi.info/feed/geo:13.7563;100.5018/?token=${process.env.NEXT_PUBLIC_PM_API_TOKEN}`
+            `https://api.waqi.info/feed/geo:13.7563;100.5018/?token=6f7ec77ee1e9ce204d9b661ff4ac1a3b986c57f5`
         );
 
         if (!response.ok) {

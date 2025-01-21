@@ -1,92 +1,25 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/_not-found/page-969dbe0c9a033043.js"
-    ],
-    "/api/line-login/route": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/api/line-login/route-b12423be58d93e5a.js"
-    ],
     "/layout": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/css/4d8c446301f68a42.css",
-      "static/chunks/app/layout-29bbdf5018959261.js"
-    ],
-    "/api/callback/route": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/api/callback/route-4d8b3ba099337499.js"
-    ],
-    "/api/pmdata/route": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/api/pmdata/route-2d7c0a948edc12fb.js"
-    ],
-    "/api/send-flex/route": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/api/send-flex/route-66fb166ff5410651.js"
-    ],
-    "/api/weather/route": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/api/weather/route-6d7aafb0c06a28aa.js"
-    ],
-    "/login/page": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/login/page-399636604581dd82.js"
-    ],
-    "/overview/page": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/overview/page-6b9c7069aef43605.js"
-    ],
-    "/contact/page": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/229-47876701b290af13.js",
-      "static/chunks/app/contact/page-8c7c760a3c6a9385.js"
-    ],
-    "/status/page": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/css/857aa62baa17c894.css",
-      "static/chunks/229-47876701b290af13.js",
-      "static/chunks/app/status/page-f3aecf9533a3b23e.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
     "/page": [
-      "static/chunks/webpack-6c6c947a7b739419.js",
-      "static/chunks/4bd1b696-98adeeb347c54dd7.js",
-      "static/chunks/517-8e3bf3745dcff25f.js",
-      "static/chunks/main-app-194acbbec87d2621.js",
-      "static/chunks/app/page-bf37bd6e9835ee54.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/api/weather/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/weather/route.js"
+    ],
+    "/api/pmdata/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/pmdata/route.js"
     ]
   }
 }
