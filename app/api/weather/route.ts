@@ -18,13 +18,15 @@ export async function GET(req: Request) {
         );
 
         if (!response.ok) {
+            console.error(`API Error: ${response.status} - ${response.statusText}`);
             throw new Error(`Failed to fetch weather data: ${response.statusText}`);
         }
 
         const data = await response.json();
         return NextResponse.json(data);
     } catch (error) {
-        console.error((error as Error).message);
+        console.error("Server Error:", error);
         return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
+
 }
