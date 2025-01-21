@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Sun, CloudRain, Cloud, Wind, Droplet } from "lucide-react";
-
+import Link from "next/link";
 interface WeatherData {
   WeatherForecasts?: Array<{
     forecasts: Array<{
@@ -205,6 +205,9 @@ export default function Home() {
             </>
           )}
         </div>
+        <Link href={'/admin'}>
+          <button className="w-full text-white bg-gray-800 py-2 my-4 rounded-lg">ระบบหลังบ้าน</button>
+        </Link>
       </div>
     </div>
   );

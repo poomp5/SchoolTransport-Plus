@@ -15,8 +15,8 @@ const StatusCard = () => {
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
                             <Image
-                                src={'/bluecat_suit.png'}
-                                alt="Driver bluecat suit"
+                                src={'/poom_suit.png'}
+                                alt="Driver poom suit"
                                 width={50}
                                 height={50}
                                 className="w-full h-full object-cover"
