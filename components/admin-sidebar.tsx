@@ -3,24 +3,23 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation"; // Import usePathname
 import { Menu, X, Users, Settings, Bell } from "lucide-react";
 
 const AdminSidebar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    // Fix: Properly type the ref as HTMLDivElement
     const sidebarRef = useRef<HTMLDivElement | null>(null);
+    const pathname = usePathname(); // Get the current pathname
 
-    // Navigation items array to avoid repetition
     const navigationItems = [
-        { href: "/admin", icon: <Users className="h-5 w-5" />, label: "ภาพรวม", isActive: true },
+        { href: "/admin", icon: <Users className="h-5 w-5" />, label: "ภาพรวม" },
         { href: "/admin/settings", icon: <Settings className="h-5 w-5" />, label: "ตั้งค่าระบบ" },
         { href: "/admin/users", icon: <Users className="h-5 w-5" />, label: "ตั้งค่าผู้ใช้งาน" },
-        { href: "/admin/alerts", icon: <Bell className="h-5 w-5" />, label: "เหตุฉุกเฉิน" }
+        { href: "/admin/alerts", icon: <Bell className="h-5 w-5" />, label: "เหตุฉุกเฉิน" },
     ];
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            // Fix: Type check for event.target and proper type assertion
             if (
                 sidebarRef.current &&
                 event.target instanceof Node &&
@@ -39,8 +38,7 @@ const AdminSidebar = () => {
         };
     }, [isMobileMenuOpen]);
 
-    // Handle mobile menu toggle
-    const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
+    const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
     return (
         <>
@@ -79,22 +77,23 @@ const AdminSidebar = () => {
 
                 {/* Navigation Links */}
                 <nav className="mt-8">
-                    {navigationItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`flex items-center gap-4 px-6 py-4 text-white transition-colors ${item.isActive
-                                    ? "bg-[#6B0000]"
-                                    : "hover:bg-[#6B0000] focus:bg-[#6B0000]"
-                                }`}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            <div className="grid h-6 w-6 place-items-center">
-                                {item.icon}
-                            </div>
-                            <span>{item.label}</span>
-                        </Link>
-                    ))}
+                    {navigationItems.map((item) => {
+                        const isActive = pathname === item.href; // Check if the current path matches the item's href
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`flex items-center gap-4 px-6 py-4 text-white transition-colors ${isActive
+                                        ? "bg-[#6B0000]"
+                                        : "hover:bg-[#6B0000] focus:bg-[#6B0000]"
+                                    }`}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                <div className="grid h-6 w-6 place-items-center">{item.icon}</div>
+                                <span>{item.label}</span>
+                            </Link>
+                        );
+                    })}
                 </nav>
             </div>
         </>

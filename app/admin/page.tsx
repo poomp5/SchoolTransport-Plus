@@ -4,12 +4,12 @@ import { Bus, BadgeCheck, Car, Info, Phone, Search } from "lucide-react";
 import AdminSidebar from "@/components/admin-sidebar";
 import Image from "next/image";
 import Map from "@/components/map";
-
+import { AlertTable } from '@/components/alert-table';
 export default function Home() {
     return (
         <div className="flex min-h-screen mb-24">
             <AdminSidebar/>
-            <div className="flex-1 lg:ml-64">
+            <div className="flex-1 lg:ml-64 md:mb-24">
                 <div className="sm:mt-24 md:mt-2 min-w-fit mx-4 h-1/2">
                     <Map />
                 </div>
@@ -44,7 +44,7 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 mx-4 gap-4">
-                    <div className="bg-white col-span-12 md:col-span-8">
+                    <div className="bg-white col-span-12 md:col-span-8 rounded-xl">
                         <div className="mb-4 flex flex-col md:flex-row justify-between gap-4 p-4 bg-white rounded-t-lg">
                             <button
                                 className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5"
@@ -65,15 +65,10 @@ export default function Home() {
                                 />
                             </div>
                         </div>
-
-                        {/* Responsive Table */}
                         <div className="overflow-x-auto relative">
                             <table className="w-full text-sm text-left text-gray-500">
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
-                                        <th scope="col" className="p-4 hidden md:table-cell">
-                                            <input type="checkbox" className="w-4 h-4 text-gray-800 bg-gray-100 border-gray-300 focus:ring-gray-500" />
-                                        </th>
                                         <th scope="col" className="px-6 py-3">ชื่อพนักงานขับ</th>
                                         <th scope="col" className="px-6 py-3 hidden md:table-cell">หมายเลขรถ</th>
                                         <th scope="col" className="px-6 py-3 hidden md:table-cell">ทะเบียน</th>
@@ -83,14 +78,11 @@ export default function Home() {
                                 </thead>
                                 <tbody>
                                     <tr className="bg-white border-b hover:bg-gray-50">
-                                        <td className="w-4 p-4 hidden md:table-cell">
-                                            <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center space-x-3">
                                                 <Image
-                                                    src="/poom_suit.png"
-                                                    alt="Driver"
+                                                    src="/poom.png"
+                                                    alt="Driver Poom"
                                                     width={40}
                                                     height={40}
                                                     className="rounded-full"
@@ -127,6 +119,132 @@ export default function Home() {
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr className="bg-white border-b hover:bg-gray-50">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center space-x-3">
+                                                <Image
+                                                    src="/nick.png"
+                                                    alt="Driver Nick"
+                                                    width={40}
+                                                    height={40}
+                                                    className="rounded-full"
+                                                />
+                                                <div>
+                                                    <div className="font-semibold text-gray-900">นายอิงควัชร์ โอสนานนท์</div>
+                                                    <div className="text-xs text-gray-500 md:hidden">
+                                                        <div>ACT02 • ฮว 123</div>
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">เข้างานเวลา 07:00 น.</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ACT02</span>
+                                        </td>
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ฮว 123</span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center whitespace-nowrap">
+                                                <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2 text-sm md:text-base" />
+                                                กำลังเดินทาง
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex space-x-2">
+                                                <button className="text-white bg-gray-800 p-1.5 rounded-lg hover:bg-gray-700">
+                                                    <Info size={16} />
+                                                </button>
+                                                <button className="text-white bg-red-800 p-1.5 rounded-lg hover:bg-red-700">
+                                                    <Phone size={16} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white border-b hover:bg-gray-50">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center space-x-3">
+                                                <Image
+                                                    src="/cotton.png"
+                                                    alt="Driver Cotton"
+                                                    width={40}
+                                                    height={40}
+                                                    className="rounded-full"
+                                                />
+                                                <div>
+                                                    <div className="font-semibold text-gray-900">นายศรัณยพงศ์ อัญญธนากร</div>
+                                                    <div className="text-xs text-gray-500 md:hidden">
+                                                        <div>ACT03 • ฮว 456</div>
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">เข้างานเวลา 07:00 น.</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ACT03</span>
+                                        </td>
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ฮว 456</span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center whitespace-nowrap">
+                                                <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2 text-sm md:text-base" />
+                                                กำลังเดินทาง
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex space-x-2">
+                                                <button className="text-white bg-gray-800 p-1.5 rounded-lg hover:bg-gray-700">
+                                                    <Info size={16} />
+                                                </button>
+                                                <button className="text-white bg-red-800 p-1.5 rounded-lg hover:bg-red-700">
+                                                    <Phone size={16} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white border-b hover:bg-gray-50">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center space-x-3">
+                                                <Image
+                                                    src="/cotton.png"
+                                                    alt="Driver Cotton"
+                                                    width={40}
+                                                    height={40}
+                                                    className="rounded-full"
+                                                />
+                                                <div>
+                                                    <div className="font-semibold text-gray-900">นายณัฐสิทธิ์ มานะปิยวงศ์</div>
+                                                    <div className="text-xs text-gray-500 md:hidden">
+                                                        <div>ACT04 • กอ 987</div>
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">เข้างานเวลา 07:00 น.</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ACT04</span>
+                                        </td>
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">กอ 987</span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center whitespace-nowrap">
+                                                <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2 text-sm md:text-base" />
+                                                กำลังเดินทาง
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex space-x-2">
+                                                <button className="text-white bg-gray-800 p-1.5 rounded-lg hover:bg-gray-700">
+                                                    <Info size={16} />
+                                                </button>
+                                                <button className="text-white bg-red-800 p-1.5 rounded-lg hover:bg-red-700">
+                                                    <Phone size={16} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -134,27 +252,7 @@ export default function Home() {
                     <div className="rounded-lg bg-[#333] p-4 text-white col-span-12 md:col-span-4">
                         <div className="mb-2 text-lg font-bold">แจ้งเตือน</div>
                         <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                                <div className="h-8 w-8"><Image className="rounded-full" src={'/poom_suit.png'} alt="poom suit" width={300} height={300} /></div>
-                                <div>
-                                    <div className="text-sm">นายทดสอบ ระบบ</div>
-                                    <div className="text-xs text-gray-400">ยางแตก</div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="h-8 w-8"><Image className="rounded-full" src={'/poom_suit.png'} alt="poom suit" width={300} height={300} /></div>
-                                <div>
-                                    <div className="text-sm">นายทดสอบ ระบบ</div>
-                                    <div className="text-xs text-gray-400">ออกนอกเส้นทาง</div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="h-8 w-8"><Image className="rounded-full" src={'/poom_suit.png'} alt="poom suit" width={300} height={300} /></div>
-                                <div>
-                                    <div className="text-sm">นายทดสอบ ระบบ</div>
-                                    <div className="text-xs text-gray-400">หมดสติ</div>
-                                </div>
-                            </div>
+                            <AlertTable />
 
                         </div>
                     </div>

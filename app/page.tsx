@@ -105,7 +105,6 @@ export default function Home() {
   return (
     <div className="pb-16">
       <div className="p-4 bg-gray-50 min-h-screen">
-        {/* Header Section */}
         <div className="mb-0">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             <div className="bg-red-800 text-white p-6 rounded-xl flex flex-col justify-center items-start">
@@ -126,8 +125,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* Weather and PM2.5 Section */}
         <div className="bg-white rounded-xl p-6 shadow-md border border-1 border-gray-100">
           {error ? (
             <p className="text-red-500">{error}</p>
@@ -144,7 +141,6 @@ export default function Home() {
                 </div>
                 <div className="mt-2">{getWeatherIcon(currentWeather.data.cond)}</div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* UV Index */}
                 <div className="bg-gray-50 p-4 rounded-xl">
@@ -205,9 +201,14 @@ export default function Home() {
             </>
           )}
         </div>
-        <Link href={'/admin'}>
-          <button className="w-full text-white bg-gray-800 py-2 my-4 rounded-lg">ระบบหลังบ้าน</button>
-        </Link>
+        <div className="flex justify-between mt-4 gap-2">
+          <Link href={'/admin'} className="w-full">
+            <button className="w-full text-white bg-gray-800 py-2 rounded-lg">ระบบหลังบ้าน</button>
+          </Link>
+          <Link href={'/driver'} className="w-full">
+            <button className="w-full text-white bg-gray-800 py-2 rounded-lg">สำหรับคนขับรถ</button>
+          </Link>
+        </div>
       </div>
     </div>
   );
