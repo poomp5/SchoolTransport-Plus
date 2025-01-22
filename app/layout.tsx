@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Kanit } from "next/font/google";
 import "./globals.css";
-import BottomNav from "@/components/bottom-nav";
+import BottomNavCheck from "@/components/bottom-nav-check";
 
 const kanit = Kanit({
   variable: "--font-kanit",
@@ -15,19 +15,15 @@ export const metadata: Metadata = {
   description: "แอปพลิเคชันที่จะยกระดับการเดินทาง ครบ-จบ-ในที่เดียว",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href={'/logo.png'} />
+        <link rel="icon" href="/logo.png" />
       </head>
       <body className={`${kanit.variable} antialiased`}>
         {children}
-        <BottomNav />
+        <BottomNavCheck />
       </body>
     </html>
   );

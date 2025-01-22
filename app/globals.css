@@ -7,16 +7,11 @@
   --foreground: #171717;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
 body {
-  /* color: var(--foreground);
-  background: var(--background); */
   background:rgb(243 244 246);
   font-family: 'Kanit' ,sans-serif;
+}
+.leaflet-container {
+  z-index: 0;
+  /* ให้ Map อยู่ด้านล่างสุด */
 }

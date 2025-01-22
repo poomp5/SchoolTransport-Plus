@@ -54,8 +54,8 @@ const Map = () => {
                     <Marker position={busLocation} icon={busIcon}>
                         <Popup>
                             <div className="flex items-center">
-                                <Image src={"/bus.png"} width={30} height={30} alt="ตำแหน่งรถ" />
-                                <span className="kanit">ตำแหน่งรถ</span>
+                                <Image src={"/bus.png"} width={30} height={30} className="w-6 h-6 mr-2" alt="ตำแหน่งรถ" />
+                                <span className="kanit">ตำแหน่งรถโรงเรียน</span>
                             </div>
                         </Popup>
                     </Marker>
