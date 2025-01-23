@@ -1,7 +1,7 @@
 "use client";
 
 import AdminSidebar from "@/components/admin-sidebar";
-import { Search , Info , Phone } from "lucide-react";
+import { Search } from "lucide-react";
 import Image from "next/image";
 export default function Home() {
     return (

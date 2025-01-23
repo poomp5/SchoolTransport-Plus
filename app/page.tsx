@@ -75,10 +75,12 @@ export default function Home() {
 
   const currentWeather = getCurrentWeather();
   const currentDate = new Date().toLocaleDateString('th-TH', {
-    month: '2-digit',
-    day: '2-digit',
-    year: 'numeric'
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',  
+    year: 'numeric',
   });
+
 
   const getWeatherIcon = (condition: number) => {
     switch (condition) {
@@ -97,19 +99,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-t from-red-700 via-red-800 to-red-400 pb-24">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="text-center text-white mb-8">
           <h1 className="text-3xl font-bold mb-2">รายงานคุณภาพอากาศ</h1>
-          <p className="text-xl">วันที่ {currentDate}</p>
+          <p className="text-xl">{currentDate}</p>
         </div>
-
-        {/* Main Content */}
         <div className="max-w-2xl mx-auto">
-          {/* Circular Image Container */}
-          <div className="relative w-64 h-64 mx-auto mb-8">
-            <div className="absolute inset-0 bg-white rounded-full overflow-hidden border-4 border-white shadow-lg">
+          <div className="relative w-64 h-64 mx-auto mb-2">
+            <div className="absolute inset-0 overflow-hidden">
               <Image
-                src={'/panda_ds.png'}
+                src={'/panda_mask.png'}
                 alt="Panda"
                 width={256}
                 height={256}
@@ -170,7 +168,7 @@ export default function Home() {
                 <div className="flex justify-between items-start mb-8">
                   <div>
                     <h2 className="text-6xl font-light mb-2">
-                      {Math.round(currentWeather.data.tc) + 6}°
+                      {Math.round(currentWeather.data.tc) }°
                     </h2>
                     <p className="text-gray-500">กรุงเทพมหานคร</p>
                   </div>
@@ -240,7 +238,7 @@ export default function Home() {
           {/* Footer Links */}
           <div className="flex justify-between mt-8 gap-4">
             <Link href="/admin" className="w-full">
-              <button className="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition-colors">
+              <button className="w-full bg-white text-gray-800 py-3 rounded-lg hover:bg-gray-200 transition-colors">
                 ระบบหลังบ้าน
               </button>
             </Link>

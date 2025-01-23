@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
-    const lat = searchParams.get("lat") || "13.7563";
-    const lon = searchParams.get("lon") || "100.5018";
+    const lat = searchParams.get("lat") || "13.7328106";
+    const lon = searchParams.get("lon") || "100.3699555";
 
     try {
         const response = await fetch(
