@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Sun, Wind, Droplet, Cloud , CloudRain } from "lucide-react";
+import { Sun, Wind, Droplet, Cloud, CloudRain } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -130,17 +130,17 @@ export default function Home() {
                   {
                     pmData && pmData.pm25 ? (
                       <>
-                          {pmData.pm25 <= 12
-                            ? "ดี"
-                            : pmData.pm25 <= 35.4
-                              ? "ปานกลาง"
-                              : pmData.pm25 <= 55.4
-                                ? "ไม่ดีต่อสุขภาพสำหรับกลุ่มที่อ่อนไหว"
-                                : pmData.pm25 <= 150.4
-                                  ? "ไม่ดีต่อสุขภาพ"
-                                  : pmData.pm25 <= 250.4
-                                    ? "มีผลกระทบต่อสุขภาพ"
-                                    : "อันตราย"}
+                        {pmData.pm25 <= 12
+                          ? "ดี"
+                          : pmData.pm25 <= 35.4
+                            ? "ปานกลาง"
+                            : pmData.pm25 <= 55.4
+                              ? "ไม่ดีต่อสุขภาพสำหรับกลุ่มที่อ่อนไหว"
+                              : pmData.pm25 <= 150.4
+                                ? "ไม่ดีต่อสุขภาพ"
+                                : pmData.pm25 <= 250.4
+                                  ? "มีผลกระทบต่อสุขภาพ"
+                                  : "อันตราย"}
                       </>
                     ) : (
                       <p className="text-sm text-gray-500">กำลังโหลดข้อมูล...</p>
@@ -170,7 +170,7 @@ export default function Home() {
                 <div className="flex justify-between items-start mb-8">
                   <div>
                     <h2 className="text-6xl font-light mb-2">
-                      {Math.round(currentWeather.data.tc)+6}°
+                      {Math.round(currentWeather.data.tc) + 6}°
                     </h2>
                     <p className="text-gray-500">กรุงเทพมหานคร</p>
                   </div>
@@ -202,7 +202,7 @@ export default function Home() {
                           </p>
                         </>
                       ) : (
-                        <p className="text-sm text-gray-500">กำลังโหลดข้อมูล...</p>
+                        <p className="text-sm text-white/90">กำลังโหลดข้อมูล...</p>
                       )
                     }
                   </div>
@@ -231,7 +231,7 @@ export default function Home() {
                           : "ปานกลาง"}
                     </p>
                   </div>
-                
+
                 </div>
               </>
             )}
