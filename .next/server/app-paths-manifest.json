@@ -1,20 +1,5 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/api/callback/route": "app/api/callback/route.js",
-  "/api/line-login/route": "app/api/line-login/route.js",
-  "/api/pmdata/route": "app/api/pmdata/route.js",
-  "/api/send-flex/route": "app/api/send-flex/route.js",
-  "/api/weather/route": "app/api/weather/route.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/users/page": "app/admin/users/page.js",
-  "/admin/alerts/page": "app/admin/alerts/page.js",
-  "/admin/settings/page": "app/admin/settings/page.js",
-  "/driver/settings/page": "app/driver/settings/page.js",
-  "/driver/student/page": "app/driver/student/page.js",
-  "/overview/page": "app/overview/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/status/page": "app/status/page.js",
-  "/driver/page": "app/driver/page.js",
-  "/login/page": "app/login/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/admin/page": "app/admin/page.js"
 }

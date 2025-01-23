@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Home() {
     return(
     <div className="m-4">
-        <div className="flex items-center gap-4 my-4">
+        <div className="flex items-center gap-4 my-4 mt-10">
             <div className="h-12 w-12 relative">
                 <Image
                     src="/poom.png"
@@ -159,7 +159,7 @@ export default function Home() {
                                 <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">27194</span>
                             </td>
                             <td className="px-6 py-4">
-                                <button className="bg-red-800 text-white px-3 py-1.5 rounded-lg text-wrap">วันนี้ไม่ขึ้นรถ</button>
+                                <button className="bg-red-800 text-white px-3 py-1.5 rounded-lg text-nowrap">วันนี้ไม่ขึ้นรถ</button>
                             </td>   
                         </tr>
                     </tbody>

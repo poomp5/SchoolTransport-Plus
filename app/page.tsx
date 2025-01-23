@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Sun, CloudRain, Cloud, Wind, Droplet } from "lucide-react";
+import { Sun, Wind, Droplet, Cloud , CloudRain } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+
 interface WeatherData {
   WeatherForecasts?: Array<{
     forecasts: Array<{
       time: string;
       data: {
-        tc: number; // temperature
-        rh: number; // relative humidity
+        tc: number;
+        rh: number;
         rain: number;
-        ws10m: number; // wind speed at 10m
-        cond: number; // weather condition
+        ws10m: number;
+        cond: number;
       };
     }>;
     location: {
@@ -36,7 +38,7 @@ export default function Home() {
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
-        const response = await fetch("/api/weather?lat=13.7563&lon=100.5018");
+        const response = await fetch("/api/weather?lat=13.732924&lon=100.371428");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -51,34 +53,32 @@ export default function Home() {
     const fetchPmData = async () => {
       try {
         const response = await fetch('/api/pmdata');
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const data = await response.json();
-        console.log("PM2.5 API response:", data); // Log the full response to inspect the structure
-
-        // Directly extract the values since the structure is simpler
-        const aqi = data.aqi;
-        const pm25 = data.pm25;
-
-        if (aqi !== undefined && pm25 !== undefined) {
-          setPmData({
-            aqi,
-            pm25,
-          });
-        } else {
-          throw new Error("PM2.5 data is missing required fields.");
-        }
+        setPmData(data);
       } catch (error) {
         console.error("Error fetching PM2.5 data:", error);
         setError(error instanceof Error ? error.message : "Failed to fetch PM2.5 data");
       }
     };
+
     fetchWeatherData();
     fetchPmData();
   }, []);
+
+  const getCurrentWeather = () => {
+    if (!weatherData?.WeatherForecasts?.[0]?.forecasts) return null;
+    return weatherData.WeatherForecasts[0].forecasts[0];
+  };
+
+  const currentWeather = getCurrentWeather();
+  const currentDate = new Date().toLocaleDateString('th-TH', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric'
+  });
 
   const getWeatherIcon = (condition: number) => {
     switch (condition) {
@@ -94,86 +94,95 @@ export default function Home() {
         return <Cloud className="w-12 h-12 text-gray-400" />;
     }
   };
-
-  const getCurrentWeather = () => {
-    if (!weatherData?.WeatherForecasts?.[0]?.forecasts) return null;
-    return weatherData.WeatherForecasts[0].forecasts[0];
-  };
-
-  const currentWeather = getCurrentWeather();
-
   return (
-    <div className="pb-16">
-      <div className="p-4 bg-gray-50 min-h-screen">
-        <div className="mb-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div className="bg-red-800 text-white p-6 rounded-xl flex flex-col justify-center items-start">
-              <h1 className="text-xl md:text-3xl font-bold mb-2 whitespace-break-spaces">
-                ยินดีต้อนรับสู่ School Transport Plus
-              </h1>
-              <p className="text-sm md:text-base">
-                แอปพลิเคชันที่จะยกระดับการเดินทาง ครบ-จบ-ในที่เดียว
-              </p>
-            </div>
-            <div className="bg-gray-100 p-6 rounded-xl flex flex-col justify-center items-start">
-              <h2 className="text-xl md:text-3xl font-semibold mb-2 text-gray-700">
-                ข้อมูลสภาพอากาศและคุณภาพอากาศ
-              </h2>
-              <p className="text-sm md:text-base text-gray-700">
-                รับข้อมูลสภาพอากาศและคุณภาพอากาศแบบเรียลไทม์จาก กรมอุตุนิยมวิทยา (tmd.go.th) และ World Air Pollution (waqi.info)
-              </p>
+    <div className="min-h-screen bg-gradient-to-t from-red-700 via-red-800 to-red-400 pb-24">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center text-white mb-8">
+          <h1 className="text-3xl font-bold mb-2">รายงานคุณภาพอากาศ</h1>
+          <p className="text-xl">วันที่ {currentDate}</p>
+        </div>
+
+        {/* Main Content */}
+        <div className="max-w-2xl mx-auto">
+          {/* Circular Image Container */}
+          <div className="relative w-64 h-64 mx-auto mb-8">
+            <div className="absolute inset-0 bg-white rounded-full overflow-hidden border-4 border-white shadow-lg">
+              <Image
+                src={'/panda_ds.png'}
+                alt="Panda"
+                width={256}
+                height={256}
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
-        </div>
-        <div className="bg-white rounded-xl p-6 shadow-md border border-1 border-gray-100">
-          {error ? (
-            <p className="text-red-500">{error}</p>
-          ) : !currentWeather ? (
-            <p>กำลังโหลดข้อมูล...</p>
-          ) : (
-            <>
-              <div className="flex justify-between items-start mb-8">
-                <div>
-                  <h2 className="text-6xl font-light mb-2">
-                    {Math.round(currentWeather.data.tc)}°
-                  </h2>
-                  <p className="text-gray-500">กรุงเทพมหานคร</p>
+
+          {/* PM2.5 Value Display */}
+          <div className="text-center mb-8">
+            <div className="rounded-xl w-full py-4 mx-auto flex items-center justify-center">
+              <div>
+                <div className="text-4xl font-bold text-white">
+                  {pmData?.pm25 || '--'} µg./m3.
                 </div>
-                <div className="mt-2">{getWeatherIcon(currentWeather.data.cond)}</div>
+                <div className="mt-2 text-white/80">
+                  {
+                    pmData && pmData.pm25 ? (
+                      <>
+                          {pmData.pm25 <= 12
+                            ? "ดี"
+                            : pmData.pm25 <= 35.4
+                              ? "ปานกลาง"
+                              : pmData.pm25 <= 55.4
+                                ? "ไม่ดีต่อสุขภาพสำหรับกลุ่มที่อ่อนไหว"
+                                : pmData.pm25 <= 150.4
+                                  ? "ไม่ดีต่อสุขภาพ"
+                                  : pmData.pm25 <= 250.4
+                                    ? "มีผลกระทบต่อสุขภาพ"
+                                    : "อันตราย"}
+                      </>
+                    ) : (
+                      <p className="text-sm text-gray-500">กำลังโหลดข้อมูล...</p>
+                    )
+                  }
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* UV Index */}
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Sun className="w-5 h-5 text-yellow-500" />
-                    <span className="text-sm text-gray-600">UV Index</span>
-                  </div>
-                  <p className="text-xl font-semibold">6 of 10</p>
-                  <p className="text-sm text-gray-500">ปานกลาง</p>
-                </div>
+            </div>
+          </div>
 
-                {/* Humidity */}
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Droplet className="w-5 h-5 text-blue-500" />
-                    <span className="text-sm text-gray-600">ความชื้น</span>
-                  </div>
-                  <p className="text-xl font-semibold">{Math.round(currentWeather.data.rh)}%</p>
-                  <p className="text-sm text-gray-500">
-                    {currentWeather.data.rh > 70
-                      ? "สูง"
-                      : currentWeather.data.rh < 30
-                        ? "ต่ำ"
-                        : "ปานกลาง"}
-                  </p>
-                </div>
+          {/* Status Box */}
+          <div className="bg-gray-800/90 text-white rounded-xl p-4 text-center mb-8">
+            <p className="">
+              งดการทำกิจกรรมกลางแจ้งทุกประเภท
+              <br />
+              สวมหน้ากากอนามัย N95 เมื่ออยู่กลางแจ้งตลอดเวลา
+            </p>
+          </div>
 
-                {/* PM2.5 */}
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Wind className="w-5 h-5 text-purple-500" />
-                    <span className="text-sm text-gray-600">PM2.5</span>
+          <div className="bg-white rounded-xl p-6 shadow-md border border-1 border-gray-100">
+            {error ? (
+              <p className="text-red-500">{error}</p>
+            ) : !currentWeather ? (
+              <p>กำลังโหลดข้อมูล...</p>
+            ) : (
+              <>
+                <div className="flex justify-between items-start mb-8">
+                  <div>
+                    <h2 className="text-6xl font-light mb-2">
+                      {Math.round(currentWeather.data.tc)+6}°
+                    </h2>
+                    <p className="text-gray-500">กรุงเทพมหานคร</p>
                   </div>
+                  <div className="mt-2">{getWeatherIcon(currentWeather.data.cond)}</div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* PM2.5 */}
+                  <div className="bg-gray-50 p-4 rounded-xl">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Wind className="w-5 h-5 text-purple-500" />
+                      <span className="text-sm text-gray-600">PM2.5</span>
+                    </div>
                     {
                       pmData && pmData.pm25 ? (
                         <>
@@ -196,18 +205,51 @@ export default function Home() {
                         <p className="text-sm text-gray-500">กำลังโหลดข้อมูล...</p>
                       )
                     }
+                  </div>
+                  {/* UV Index */}
+                  <div className="bg-gray-50 p-4 rounded-xl">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sun className="w-5 h-5 text-yellow-500" />
+                      <span className="text-sm text-gray-600">UV Index</span>
+                    </div>
+                    <p className="text-xl font-semibold">6 of 10</p>
+                    <p className="text-sm text-gray-500">ปานกลาง</p>
+                  </div>
+
+                  {/* Humidity */}
+                  <div className="bg-gray-50 p-4 rounded-xl">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Droplet className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm text-gray-600">ความชื้น</span>
+                    </div>
+                    <p className="text-xl font-semibold">{Math.round(currentWeather.data.rh)}%</p>
+                    <p className="text-sm text-gray-500">
+                      {currentWeather.data.rh > 70
+                        ? "สูง"
+                        : currentWeather.data.rh < 30
+                          ? "ต่ำ"
+                          : "ปานกลาง"}
+                    </p>
+                  </div>
+                
                 </div>
-              </div>
-            </>
-          )}
-        </div>
-        <div className="flex justify-between mt-4 gap-2">
-          <Link href={'/admin'} className="w-full">
-            <button className="w-full text-white bg-gray-800 py-2 rounded-lg">ระบบหลังบ้าน</button>
-          </Link>
-          <Link href={'/driver'} className="w-full">
-            <button className="w-full text-white bg-gray-800 py-2 rounded-lg">สำหรับคนขับรถ</button>
-          </Link>
+              </>
+            )}
+          </div>
+
+          {/* Footer Links */}
+          <div className="flex justify-between mt-8 gap-4">
+            <Link href="/admin" className="w-full">
+              <button className="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                ระบบหลังบ้าน
+              </button>
+            </Link>
+            <Link href="/driver" className="w-full">
+              <button className="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                สำหรับคนขับรถ
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
