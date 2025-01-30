@@ -75,12 +75,14 @@ const StatusCard = () => {
                         </div>
                     </div>
                     <button
-                        className={`w-full mt-6 py-4 rounded-xl font-medium ${isWaiting ? 'bg-gray-200 text-gray-600 hover:bg-gray-300' : 'bg-green-700 text-white'}`}
+                        className={`w-full mt-6 py-4 rounded-xl font-medium ${isWaiting ? 'bg-green-700 text-white hover:bg-green-800' : 'bg-red-700 text-white'}`}
                         onClick={() => setIsWaiting(!isWaiting)}
                     >
-                        {isWaiting ? 'ฉันกำลังยืนรอรถรับส่ง' : 'ฉันกำลังยืนรอรถรับส่ง'}
+                        {isWaiting ? 'กำลังยืนรอรถ' : 'ยกเลิก'}
                     </button>
-                    <p className="mt-2 text-center text-gray-500 text-sm text-nowrap">เมื่อปุ่มเป็นสีเขียว หมายความว่าคุณพร้อมขึ้นรถรับส่งแล้ว</p>
+                    <p className="mt-2 text-center text-gray-500 text-sm text-nowrap">
+                        สถานะของคุณขณะนี้ : {isWaiting ? 'ไม่พร้อมขึ้นรถ' : 'กำลังยืนรอรถ'}
+                    </p>
                 </div>
             </div>
         </div>

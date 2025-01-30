@@ -253,7 +253,6 @@ export default function Home() {
                         <div className="mb-2 text-lg font-bold">แจ้งเตือน</div>
                         <div className="space-y-2">
                             <AlertTable />
-
                         </div>
                     </div>
                 </div>

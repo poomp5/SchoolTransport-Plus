@@ -28,10 +28,10 @@ export function AlertTable() {
                 </div>
                 <h3 className="font-medium mb-2">รถยางแตกระหว่างทาง</h3>
                 <div className="flex gap-2">
-                    <button className="flex-1 bg-white hover:bg-gray-200 rounded-lg text-gray-900">
+                    <button className="flex-1 bg-white hover:bg-gray-200 rounded-lg text-gray-900 py-1">
                         ตรวจสอบ
                     </button>
-                    <button className="flex-1 bg-red-800 hover:bg-red-900 rounded-lg">
+                    <button className="flex-1 bg-red-800 hover:bg-red-900 rounded-lg text-white py-1">
                         เริ่มการโทร
                     </button>
                 </div>
@@ -61,10 +61,10 @@ export function AlertTable() {
                 </div>
                 <h3 className="font-medium mb-2">กำลังขับออกนอกเส้นทาง</h3>
                 <div className="flex gap-2">
-                    <button className="flex-1 bg-white hover:bg-gray-200 rounded-lg text-gray-900">
+                    <button className="flex-1 bg-white hover:bg-gray-200 rounded-lg text-gray-900 py-1">
                         ตรวจสอบ
                     </button>
-                    <button className="flex-1 bg-red-800 hover:bg-red-900 rounded-lg">
+                    <button className="flex-1 bg-red-800 hover:bg-red-900 rounded-lg text-white py-1">
                         เริ่มการโทร
                     </button>
                 </div>
