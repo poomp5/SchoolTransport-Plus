@@ -15,10 +15,10 @@ export default function Home() {
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">#</th>
-                                    <th scope="col" className="px-6 py-3">รูป</th>
                                     <th scope="col" className="px-6 py-3">ชื่อ</th>
                                     <th scope="col" className="px-6 py-3">รายละเอียด</th>
                                     <th scope="col" className="px-6 py-3">นักเรียน</th>
+                                    <th scope="col" className="px-6 py-3">วันที่</th>
                                     <th scope="col" className="px-6 py-3">การกระทำ</th>
                                 </tr>
                             </thead>
@@ -26,33 +26,24 @@ export default function Home() {
                                 {[{
                                     number: 1,
                                     name: "นายปุญญพัฒน์ กูลมนุญ",
-                                    image: "/poom.png",
                                     details: "ACT01 · กข 999",
                                     status: "รถยางแตกระหว่างทาง",
+                                    date: "30 มกราคม 2568",
                                     students: 11
                                 }, {
                                     number: 2,
                                     name: "นายศรัณยพงศ์ อัญญธนากร",
-                                    image: "/cotton.png",
                                     details: "ACT03 · ฮว 456",
                                     status: "กำลังขับออกนอกเส้นทาง",
+                                    date: "31 มกราคม 2568",
                                     students: 10
                                 }].map((driver, index) => (
                                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <td className="px-6 py-4">{driver.number}</td>
-                                        <td className="px-6 py-4">
-                                            <div className="h-12 w-12 relative">
-                                                <Image
-                                                    src={driver.image}
-                                                    alt={driver.name}
-                                                    fill
-                                                    className="object-cover rounded-full"
-                                                />
-                                            </div>
-                                        </td>
                                         <td className="px-6 py-4">{driver.name}</td>
                                         <td className="px-6 py-4">{driver.details}<br /><span className="text-red-600">{driver.status}</span></td>
                                         <td className="px-6 py-4">{driver.students} คน</td>
+                                        <td className="px-6 py-4">{driver.date}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex gap-2">
                                                 <button className="bg-gray-800 hover:bg-gray-900 rounded-lg text-white py-1 px-3">
