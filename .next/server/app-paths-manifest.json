@@ -1,5 +1,9 @@
 {
+  "/api/pmdata/route": "app/api/pmdata/route.js",
+  "/api/weather/route": "app/api/weather/route.js",
   "/page": "app/page.js",
   "/admin/alerts/page": "app/admin/alerts/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/settings/page": "app/admin/settings/page.js",
   "/admin/users/page": "app/admin/users/page.js"
 }

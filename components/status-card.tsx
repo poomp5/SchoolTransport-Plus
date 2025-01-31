@@ -22,7 +22,7 @@ const StatusCard = () => {
                                 className="w-full h-full object-cover"
                             />
                         </div>
-                        <div>
+                        <div> 
                             <h1 className="text-gray-700 text-lg font-semibold">ปุญญพัฒน์ กูลมนุญ</h1>
                             <p className="text-gray-600 text-sm">โรงเรียนอัสสัมชัญธนบุรี</p>
                         </div>
