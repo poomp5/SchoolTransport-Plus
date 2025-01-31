@@ -8,7 +8,7 @@ interface Student {
     name: string;
     className: string;
     studentId: string;
-    imageUrl: string;  // Added imageUrl field
+    imageUrl: string;  
 }
 
 type ListType = 'waiting' | 'onBus';
