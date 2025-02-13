@@ -8,7 +8,7 @@ interface Student {
     name: string;
     className: string;
     studentId: string;
-    imageUrl: string;  // Added imageUrl field
+    imageUrl: string;
 }
 
 type ListType = 'waiting' | 'onBus';
@@ -20,14 +20,14 @@ export default function Home() {
             name: "นายอิงควัชร์ โอสนานนท์", 
             className: "ม.4/9", 
             studentId: "27147",
-            imageUrl: "/student_nick.jpg"  // Add actual image path
+            imageUrl: "/student_nick.JPG"   
         },
         { 
             id: 2, 
             name: "นายศรัณยพงศ์ อัญญธนากร", 
             className: "ม.4/9", 
             studentId: "27178",
-            imageUrl: "/student_cotton.jpg"  // Add actual image path
+            imageUrl: "/student_cotton.JPG"   
         }
     ]);
     const [onBusStudents, setOnBusStudents] = useState<Student[]>([
@@ -36,16 +36,17 @@ export default function Home() {
             name: "นายปุญญพัฒน์ กูลมนุญ", 
             className: "ม.4/9", 
             studentId: "27200",
-            imageUrl: "/student_poom.jpg"  // Add actual image path
+            imageUrl: "/student_poom.JPG"   
         },
         { 
             id: 4, 
             name: "นายณัฐสิทธิ์ มานะปิยวงศ์", 
             className: "ม.4/9", 
             studentId: "27194",
-            imageUrl: "/student_poom.jpg"  // Add actual image path
+            imageUrl: "/student_tete.JPG"  
         }
     ]);
+
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: number, sourceList: ListType) => {
         e.dataTransfer.setData('text/plain', JSON.stringify({ id, sourceList }));
@@ -101,9 +102,10 @@ export default function Home() {
                         <Image
                             src={student.imageUrl}
                             alt={`Student ${student.name}`}
-                            width={300}
-                            height={300}
+                            width={40}
+                            height={40}
                             className="w-full h-full object-cover"
+                            priority
                         />
                     </div>
                     <div>
@@ -137,9 +139,7 @@ export default function Home() {
     return (
         <div className="pb-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mx-4 my-8">
-                {/* Left Column */}
                 <div className="flex flex-col gap-4">
-                    {/* Top Stats Box */}
                     <div className="flex items-center justify-between rounded-lg bg-yellow-800 p-4 text-white">
                         <div>
                             <div className="text-2xl font-bold sm:text-3xl">{waitingStudents.length} คน</div>
@@ -150,7 +150,6 @@ export default function Home() {
                         </div>
                     </div>
                     
-                    {/* Draggable Area */}
                     <div 
                         className="rounded-lg border-2 border-dashed border-yellow-800 p-4 min-h-48"
                         onDrop={(e) => handleDrop(e, 'waiting')}
@@ -165,9 +164,7 @@ export default function Home() {
                     </div>
                 </div>
 
-                {/* Right Column */}
                 <div className="flex flex-col gap-4">
-                    {/* Top Stats Box */}
                     <div className="flex items-center justify-between rounded-lg bg-green-800 p-4 text-white">
                         <div>
                             <div className="text-2xl font-bold sm:text-3xl">{onBusStudents.length} คน</div>
@@ -178,7 +175,6 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* Draggable Area */}
                     <div 
                         className="rounded-lg border-2 border-dashed border-green-800 p-4 min-h-48"
                         onDrop={(e) => handleDrop(e, 'onBus')}
