@@ -99,11 +99,11 @@ export default function Home() {
             <div className="px-6 py-4">
                 <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden">
-                    <img
-    src={student.imageUrl}
-    alt={`Student ${student.name}`}
-    className="w-10 h-10 rounded-full object-cover"
-/>
+                        <img
+                            src={student.imageUrl}
+                            alt={`Student ${student.name}`}
+                            className="w-10 h-10 rounded-full object-cover"
+                        />
 
 
                     </div>
@@ -124,8 +124,8 @@ export default function Home() {
                 </span>
                 <button
                     className={`${sourceList === 'waiting'
-                            ? 'bg-gray-400 hover:bg-green-800'
-                            : 'bg-green-800'
+                        ? 'bg-gray-400 hover:bg-green-800'
+                        : 'bg-green-800'
                         } text-white px-3 py-1.5 rounded-lg`}
                 >
                     {sourceList === 'waiting' ? 'ยังไม่ได้รับ' : 'รับขึ้นรถแล้ว'}
