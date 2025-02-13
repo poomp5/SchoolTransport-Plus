@@ -15,35 +15,35 @@ type ListType = 'waiting' | 'onBus';
 
 export default function Home() {
     const [waitingStudents, setWaitingStudents] = useState<Student[]>([
-        { 
-            id: 1, 
-            name: "นายอิงควัชร์ โอสนานนท์", 
-            className: "ม.4/9", 
+        {
+            id: 1,
+            name: "นายอิงควัชร์ โอสนานนท์",
+            className: "ม.4/9",
             studentId: "27147",
-            imageUrl: "/student_nick.JPG"   
+            imageUrl: "/student_nick.JPG"
         },
-        { 
-            id: 2, 
-            name: "นายศรัณยพงศ์ อัญญธนากร", 
-            className: "ม.4/9", 
+        {
+            id: 2,
+            name: "นายศรัณยพงศ์ อัญญธนากร",
+            className: "ม.4/9",
             studentId: "27178",
-            imageUrl: "/student_cotton.JPG"   
+            imageUrl: "/student_cotton.JPG"
         }
     ]);
     const [onBusStudents, setOnBusStudents] = useState<Student[]>([
-        { 
-            id: 3, 
-            name: "นายปุญญพัฒน์ กูลมนุญ", 
-            className: "ม.4/9", 
+        {
+            id: 3,
+            name: "นายปุญญพัฒน์ กูลมนุญ",
+            className: "ม.4/9",
             studentId: "27200",
-            imageUrl: "/student_poom.JPG"   
+            imageUrl: "/student_poom.JPG"
         },
-        { 
-            id: 4, 
-            name: "นายณัฐสิทธิ์ มานะปิยวงศ์", 
-            className: "ม.4/9", 
+        {
+            id: 4,
+            name: "นายณัฐสิทธิ์ มานะปิยวงศ์",
+            className: "ม.4/9",
             studentId: "27194",
-            imageUrl: "/student_tete.JPG"  
+            imageUrl: "/student_tete.JPG"
         }
     ]);
 
@@ -90,7 +90,7 @@ export default function Home() {
     };
 
     const StudentRow = ({ student, sourceList }: { student: Student, sourceList: ListType }) => (
-        <div 
+        <div
             draggable
             onClick={() => handleClick(student.id, sourceList)}
             onDragStart={(e) => handleDragStart(e, student.id, sourceList)}
@@ -99,14 +99,13 @@ export default function Home() {
             <div className="px-6 py-4">
                 <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden">
-                        <Image
-                            src={student.imageUrl}
-                            alt={`Student ${student.name}`}
-                            width={40}
-                            height={40}
-                            className="w-full h-full object-cover"
-                            priority
-                        />
+                    <img
+    src={student.imageUrl}
+    alt={`Student ${student.name}`}
+    className="w-10 h-10 rounded-full object-cover"
+/>
+
+
                     </div>
                     <div>
                         <div className="font-semibold text-gray-900">{student.name}</div>
@@ -123,12 +122,11 @@ export default function Home() {
                 <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">
                     {student.studentId}
                 </span>
-                <button 
-                    className={`${
-                        sourceList === 'waiting' 
-                            ? 'bg-gray-400 hover:bg-green-800' 
+                <button
+                    className={`${sourceList === 'waiting'
+                            ? 'bg-gray-400 hover:bg-green-800'
                             : 'bg-green-800'
-                    } text-white px-3 py-1.5 rounded-lg`}
+                        } text-white px-3 py-1.5 rounded-lg`}
                 >
                     {sourceList === 'waiting' ? 'ยังไม่ได้รับ' : 'รับขึ้นรถแล้ว'}
                 </button>
@@ -149,8 +147,8 @@ export default function Home() {
                             <Bus />
                         </div>
                     </div>
-                    
-                    <div 
+
+                    <div
                         className="rounded-lg border-2 border-dashed border-yellow-800 p-4 min-h-48"
                         onDrop={(e) => handleDrop(e, 'waiting')}
                         onDragOver={handleDragOver}
@@ -175,7 +173,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div 
+                    <div
                         className="rounded-lg border-2 border-dashed border-green-800 p-4 min-h-48"
                         onDrop={(e) => handleDrop(e, 'onBus')}
                         onDragOver={handleDragOver}
