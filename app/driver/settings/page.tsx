@@ -14,7 +14,7 @@ export default function Home() {
                 confirmButtonText: "ตกลง"
             });
         };
-    const [name, setName] = useState("นายณัฐสิทธิ์ มานะปิยวงศ์");
+    const [name, setName] = useState("นายปุญญพัฒน์ กูลมนุญ");
     const [phone, setPhone] = useState("099 999 9999");
     const [citizenId, setCitizenId] = useState("1111111111111");
 
@@ -118,7 +118,7 @@ export default function Home() {
                     <input
                         type="text"
                         className="bg-gray-100 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none "
-                        value={"ACT01"} readOnly
+                        value={"TIA01"} readOnly
 
                     />
                 </div>
@@ -129,7 +129,7 @@ export default function Home() {
                     <input
                         type="text"
                         className="bg-gray-100 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none "
-                        value={"กข 999"} readOnly
+                        value={"อสธ 999"} readOnly
 
                     />
                 </div>

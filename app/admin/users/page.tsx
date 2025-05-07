@@ -55,17 +55,17 @@ export default function Home() {
                                                 <div>
                                                     <div className="font-semibold text-gray-900">นายปุญญพัฒน์ กูลมนุญ</div>
                                                     <div className="text-xs text-gray-500 md:hidden">
-                                                        <div>ACT01 • กข 999</div>
+                                                        <div>TIA01 • อสธ 999</div>
                                                     </div>
                                                     <div className="text-xs text-gray-500">เข้างานเวลา 07:00 น.</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ACT01</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">TIA01</span>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">กข 999</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">อสธ 999</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center whitespace-nowrap">
@@ -94,17 +94,17 @@ export default function Home() {
                                                 <div>
                                                     <div className="font-semibold text-gray-900">นายอิงควัชร์ โอสนานนท์</div>
                                                     <div className="text-xs text-gray-500 md:hidden">
-                                                        <div>ACT02 • ฮว 123</div>
+                                                        <div>TIA02 • อสธ 123</div>
                                                     </div>
                                                     <div className="text-xs text-gray-500">เข้างานเวลา 07:00 น.</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ACT02</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">TIA02</span>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ฮว 123</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">อสธ 123</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center whitespace-nowrap">
@@ -133,17 +133,17 @@ export default function Home() {
                                                 <div>
                                                     <div className="font-semibold text-gray-900">นายศรัณยพงศ์ อัญญธนากร</div>
                                                     <div className="text-xs text-gray-500 md:hidden">
-                                                        <div>ACT03 • ฮว 456</div>
+                                                        <div>TIA03 • อสธ 456</div>
                                                     </div>
                                                     <div className="text-xs text-gray-500">เข้างานเวลา 07:00 น.</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ACT03</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">TIA03</span>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ฮว 456</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">อสธ 456</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center whitespace-nowrap">
@@ -172,17 +172,17 @@ export default function Home() {
                                                 <div>
                                                     <div className="font-semibold text-gray-900">นายณัฐสิทธิ์ มานะปิยวงศ์</div>
                                                     <div className="text-xs text-gray-500 md:hidden">
-                                                        <div>ACT04 • กอ 987</div>
+                                                        <div>TIA04 • อสธ 987</div>
                                                     </div>
                                                     <div className="text-xs text-gray-500">เข้างานเวลา 07:00 น.</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">ACT04</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">TIA04</span>
                                         </td>
                                         <td className="px-6 py-4 hidden md:table-cell">
-                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">กอ 987</span>
+                                            <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">อสธ 987</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center whitespace-nowrap">
