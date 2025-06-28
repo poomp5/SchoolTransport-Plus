@@ -13,6 +13,7 @@ const AdminSidebar = () => {
 
     const navigationItems = [
         { href: "/admin", icon: <Users className="h-5 w-5" />, label: "ภาพรวม" },
+        { href: "/admin/camera", icon: <Users className="h-5 w-5" />, label: "กล้องจับความร้อน" },
         { href: "/admin/settings", icon: <Settings className="h-5 w-5" />, label: "ตั้งค่าระบบ" },
         { href: "/admin/users", icon: <Users className="h-5 w-5" />, label: "ตั้งค่าผู้ใช้งาน" },
         { href: "/admin/alerts", icon: <Bell className="h-5 w-5" />, label: "เหตุฉุกเฉิน" },
