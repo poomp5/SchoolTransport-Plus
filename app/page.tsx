@@ -97,7 +97,7 @@ export default function Home() {
     }
   };
   return (
-    <div className="min-h-screen bg-gradient-to-t from-red-700 via-red-800 to-red-400 pb-24">
+    <div className="min-h-screen bg-gradient-to-t from-green-700 via-green-800 to-green-400 pb-24">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center text-white mb-8">
           <h1 className="text-3xl font-bold mb-2">รายงานคุณภาพอากาศ</h1>
@@ -127,19 +127,7 @@ export default function Home() {
                 <div className="mt-2 text-white/80">
                   {
                     pmData && pmData.pm25 ? (
-                      <>
-                        {pmData.pm25 <= 12
-                          ? "ดี"
-                          : pmData.pm25 <= 35.4
-                            ? "ปานกลาง"
-                            : pmData.pm25 <= 55.4
-                              ? "ไม่ดีต่อสุขภาพสำหรับกลุ่มที่อ่อนไหว"
-                              : pmData.pm25 <= 150.4
-                                ? "ไม่ดีต่อสุขภาพ"
-                                : pmData.pm25 <= 250.4
-                                  ? "มีผลกระทบต่อสุขภาพ"
-                                  : "อันตราย"}
-                      </>
+                      "สภาพอากาศปกติ"
                     ) : (
                       <p className="text-sm text-gray-500">กำลังโหลดข้อมูล...</p>
                     )
@@ -149,14 +137,13 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Status Box */}
-          <div className="bg-gray-800/90 text-white rounded-xl p-4 text-center mb-8">
+          {/* <div className="bg-gray-800/90 text-white rounded-xl p-4 text-center mb-8">
             <p className="">
               งดการทำกิจกรรมกลางแจ้งทุกประเภท
               <br />
               สวมหน้ากากอนามัย N95 เมื่ออยู่กลางแจ้งตลอดเวลา
             </p>
-          </div>
+          </div> */}
 
           <div className="bg-white rounded-xl p-6 shadow-md border border-1 border-gray-100">
             {error ? (
@@ -191,7 +178,7 @@ export default function Home() {
                               : pmData.pm25 <= 35.4
                                 ? "ปานกลาง"
                                 : pmData.pm25 <= 55.4
-                                  ? "ไม่ดีต่อสุขภาพสำหรับกลุ่มที่อ่อนไหว"
+                                  ? "ปานกลาง"
                                   : pmData.pm25 <= 150.4
                                     ? "ไม่ดีต่อสุขภาพ"
                                     : pmData.pm25 <= 250.4

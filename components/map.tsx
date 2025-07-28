@@ -34,34 +34,52 @@ const Map = () => {
     const busIcon = leaflet.icon({ iconUrl: "/bus.png", iconSize: [50, 50] });
 
     return (
-        <div className="relative w-full h-full">
-            <MapContainer center={[13.7330125, 100.3702514]} zoom={15} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true} className="rounded-2xl">
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution="ACT PITCHING DAY 2025 | &copy openstreetmap.org"
-                />
-                {userLocation && (
-                    <Marker position={userLocation} icon={userIcon}>
-                        <Popup>
-                            <div className="flex items-center">
-                                <Image src={"/mylocation.png"} alt="ตำแหน่งผู้ใช้" className="w-6 h-6 mr-2" width={30} height={30} />
-                                <span className="kanit">ตำแหน่งของฉัน</span>
-                            </div>
-                        </Popup>
-                    </Marker>
-                )}
-                {busLocation && (
-                    <Marker position={busLocation} icon={busIcon}>
-                        <Popup>
-                            <div className="flex items-center">
-                                <Image src={"/bus.png"} width={30} height={30} className="w-6 h-6 mr-2" alt="ตำแหน่งรถ" />
-                                <span className="kanit">ตำแหน่งรถโรงเรียน</span>
-                            </div>
-                        </Popup>
-                    </Marker>
-                )}
-            </MapContainer>
-        </div>
+      <div className="relative w-full h-full">
+        <MapContainer
+          center={[13.7330125, 100.3702514]}
+          zoom={15}
+          style={{ height: "100%", width: "100%" }}
+          scrollWheelZoom={true}
+          className="rounded-2xl"
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="Thailand Innovation Awards 2025 | &copy openstreetmap.org"
+          />
+          {userLocation && (
+            <Marker position={userLocation} icon={userIcon}>
+              <Popup>
+                <div className="flex items-center">
+                  <Image
+                    src={"/mylocation.png"}
+                    alt="ตำแหน่งผู้ใช้"
+                    className="w-6 h-6 mr-2"
+                    width={30}
+                    height={30}
+                  />
+                  <span className="kanit">ตำแหน่งของฉัน</span>
+                </div>
+              </Popup>
+            </Marker>
+          )}
+          {busLocation && (
+            <Marker position={busLocation} icon={busIcon}>
+              <Popup>
+                <div className="flex items-center">
+                  <Image
+                    src={"/bus.png"}
+                    width={30}
+                    height={30}
+                    className="w-6 h-6 mr-2"
+                    alt="ตำแหน่งรถ"
+                  />
+                  <span className="kanit">ตำแหน่งรถโรงเรียน</span>
+                </div>
+              </Popup>
+            </Marker>
+          )}
+        </MapContainer>
+      </div>
     );
 };
 
