@@ -2,6 +2,9 @@
 import { Bus, BadgeCheck } from "lucide-react";
 import { useState } from 'react';
 import Image from "next/image";
+import poomImg from "@/public/student_poom.jpg";
+import nickImg from "@/public/student_nick.jpg";
+import cottonImg from "@/public/student_cotton.jpg";
 
 interface Student {
     id: number;
@@ -14,18 +17,26 @@ interface Student {
 type ListType = 'waiting' | 'onBus';
 
 export default function Home() {
+
+    const imgMap: Record<string, any> = {
+      "/student_poom.jpg": poomImg,
+      "/student_nick.jpg": nickImg,
+      "/student_cotton.jpg": cottonImg,
+    };
+
+
     const [waitingStudents, setWaitingStudents] = useState<Student[]>([
         {
             id: 1,
             name: "นายอิงควัชร์ โอสนานนท์",
-            className: "ม.4/9",
+            className: "ม.5/9",
             studentId: "27147",
             imageUrl: "/student_nick.jpg"  // Add actual image path
         },
         {
             id: 2,
             name: "นายศรัณยพงศ์ อัญญธนากร",
-            className: "ม.4/9",
+            className: "ม.5/9",
             studentId: "27178",
             imageUrl: "/student_cotton.jpg"  // Add actual image path
         }
@@ -34,14 +45,14 @@ export default function Home() {
         {
             id: 3,
             name: "นายปุญญพัฒน์ กูลมนุญ",
-            className: "ม.4/9",
+            className: "ม.5/9",
             studentId: "27200",
             imageUrl: "/student_poom.jpg"  // Add actual image path
         },
         {
             id: 4,
             name: "นายณัฐสิทธิ์ มานะปิยวงศ์",
-            className: "ม.4/9",
+            className: "ม.5/9",
             studentId: "27194",
             imageUrl: "/student_poom.jpg"  // Add actual image path
         }
@@ -89,50 +100,56 @@ export default function Home() {
         moveStudent(id, sourceList, targetList);
     };
 
-    const StudentRow = ({ student, sourceList }: { student: Student, sourceList: ListType }) => (
-        <div 
-            draggable
-            onClick={() => handleClick(student.id, sourceList)}
-            onDragStart={(e) => handleDragStart(e, student.id, sourceList)}
-            className="bg-white border-b hover:bg-gray-50 cursor-pointer"
-        >
-            <div className="px-6 py-4">
-                <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
-                        <Image
-                            src={student.imageUrl}
-                            alt={`Student ${student.name}`}
-                            width={300}
-                            height={300}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div>
-                        <div className="font-semibold text-gray-900">{student.name}</div>
-                        <div className="text-xs text-gray-500 table-cell md:hidden">
-                            {student.className} · เลขประจำตัว {student.studentId}
-                        </div>
-                    </div>
-                </div>
+    const StudentRow = ({
+      student,
+      sourceList,
+    }: {
+      student: Student;
+      sourceList: ListType;
+    }) => (
+      <div
+        draggable
+        onClick={() => handleClick(student.id, sourceList)}
+        onDragStart={(e) => handleDragStart(e, student.id, sourceList)}
+        className="bg-white border-b hover:bg-gray-50 cursor-pointer"
+      >
+        <div className="px-6 py-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-full overflow-hidden">
+              <Image
+                src={imgMap[student.imageUrl] ?? poomImg}
+                alt={`Student ${student.name}`}
+                width={300}
+                height={300}
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="px-6 py-2 hidden md:flex items-center space-x-4">
-                <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">
-                    {student.className}
-                </span>
-                <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">
-                    {student.studentId}
-                </span>
-                <button 
-                    className={`${
-                        sourceList === 'waiting' 
-                            ? 'bg-gray-400 hover:bg-green-800' 
-                            : 'bg-green-800'
-                    } text-white px-3 py-1.5 rounded-lg`}
-                >
-                    {sourceList === 'waiting' ? 'ยังไม่ได้รับ' : 'รับขึ้นรถแล้ว'}
-                </button>
+            <div>
+              <div className="font-semibold text-gray-900">{student.name}</div>
+              <div className="text-xs text-gray-500 table-cell md:hidden">
+                {student.className} · เลขประจำตัว {student.studentId}
+              </div>
             </div>
+          </div>
         </div>
+        <div className="px-6 py-2 hidden md:flex items-center space-x-4">
+          <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">
+            {student.className}
+          </span>
+          <span className="bg-gray-100 text-gray-800 text-sm font-medium px-2.5 py-0.5 rounded">
+            {student.studentId}
+          </span>
+          <button
+            className={`${
+              sourceList === "waiting"
+                ? "bg-gray-400 hover:bg-green-800"
+                : "bg-green-800"
+            } text-white px-3 py-1.5 rounded-lg`}
+          >
+            {sourceList === "waiting" ? "ยังไม่ได้รับ" : "รับขึ้นรถแล้ว"}
+          </button>
+        </div>
+      </div>
     );
 
     return (
