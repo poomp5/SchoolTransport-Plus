@@ -98,8 +98,10 @@ export default function CameraModal({ onClose }: CameraModalProps) {
 
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      if (videoRef.current?.srcObject) {
-        (videoRef.current.srcObject as MediaStream)
+      const videoElement = videoRef.current;
+      const localVideoElement = videoElement; // Copy ref value to a local variable
+      if (localVideoElement?.srcObject) {
+        (localVideoElement.srcObject as MediaStream)
           .getTracks()
           .forEach((t) => t.stop());
       }

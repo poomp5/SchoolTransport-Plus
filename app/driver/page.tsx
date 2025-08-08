@@ -1,7 +1,7 @@
 "use client";
 import { Bus, BadgeCheck } from "lucide-react";
 import { useState } from 'react';
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import poomImg from "@/public/student_poom.jpg";
 import nickImg from "@/public/student_nick.jpg";
 import cottonImg from "@/public/student_cotton.jpg";
@@ -18,7 +18,7 @@ type ListType = 'waiting' | 'onBus';
 
 export default function Home() {
 
-    const imgMap: Record<string, any> = {
+    const imgMap: Record<string, StaticImageData> = {
       "/student_poom.jpg": poomImg,
       "/student_nick.jpg": nickImg,
       "/student_cotton.jpg": cottonImg,
