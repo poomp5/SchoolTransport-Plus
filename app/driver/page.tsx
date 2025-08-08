@@ -59,14 +59,14 @@ export default function Home() {
       name: "นายอิงควัชร์ โอสนานนท์",
       className: "ม.5/9",
       studentId: "27147",
-      imageUrl: "/student_nick.jpg",
+      imageUrl: "/s_nick.png",
     },
     {
       id: 2,
       name: "นายศรัณยพงศ์ อัญญธนากร",
       className: "ม.5/9",
       studentId: "27178",
-      imageUrl: "/student_cotton.jpg",
+      imageUrl: "/s_cotton.png",
     },
   ]);
 
@@ -76,14 +76,14 @@ export default function Home() {
       name: "นายปุญญพัฒน์ กูลมนุญ",
       className: "ม.5/9",
       studentId: "27200",
-      imageUrl: "/student_poom.jpg",
+      imageUrl: "/s_poom.png",
     },
     {
       id: 4,
       name: "นายณัฐสิทธิ์ มานะปิยวงศ์",
       className: "ม.5/9",
       studentId: "27194",
-      imageUrl: "/student_poom.jpg",
+      imageUrl: "/s_tete.png",
     },
   ]);
 

@@ -62,7 +62,7 @@ export default function Home() {
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center space-x-3">
                                     <Image
-                                        src="/student_nick.jpg"
+                                        src="/s_nick.png"
                                         alt="Student Poom"
                                         width={300}
                                         height={300}
@@ -88,7 +88,7 @@ export default function Home() {
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center space-x-3">
                                     <Image
-                                        src="/student_nick.jpg"
+                                        src="/s_cotton.png"
                                         alt="Student Poom"
                                         width={300}
                                         height={300}
@@ -114,7 +114,7 @@ export default function Home() {
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center space-x-3">
                                     <Image
-                                        src="/student_poom.jpg"
+                                        src="/s_poom.png"
                                         alt="Student Poom"
                                         width={300}
                                         height={300}
@@ -140,7 +140,7 @@ export default function Home() {
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center space-x-3">
                                     <Image
-                                        src="/student_poom.jpg"
+                                        src="/s_tete.png"
                                         alt="Student Poom"
                                         width={300}
                                         height={300}
