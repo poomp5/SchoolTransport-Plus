@@ -1,171 +1,230 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
-import * as blazeface from "@tensorflow-models/blazeface";
-import "@tensorflow/tfjs";
+import * as faceapi from "face-api.js";
 
-interface CameraModalProps {
-  onClose: () => void;
-}
+type Enrolled = { label: string; descriptor: number[] };
+type OnBus = { label: string; since: number };
 
-export default function CameraModal({ onClose }: CameraModalProps) {
+export default function FaceCameraPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const modelRef = useRef<blazeface.BlazeFaceModel | null>(null);
-  const animationRef = useRef<number | null>(null);
-  const [faceCount, setFaceCount] = useState(0);
 
-  useEffect(() => {
-    blazeface.load().then((model) => {
-      modelRef.current = model;
-    });
-  }, []);
+  const [status, setStatus] = useState("Loading models...");
+  const [enrolled, setEnrolled] = useState<Enrolled[]>([]);
+  const [onBus, setOnBus] = useState<OnBus[]>([]); // รายชื่อ “อยู่บนรถแล้ว”
 
-  useEffect(() => {
-    const startCamera = async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
+  // ====== CONFIG ======
+  const THRESHOLD = 0.6; // ปรับตามจริง (0.5–0.7)
+  const TICK_MS = 350; // รอบการตรวจจับ
+  const VIDEO_W = 640; // ขนาดวิดีโอ
+  const VIDEO_H = 480;
 
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play();
-          detectFaces();
-        };
-      }
-    };
-
-    const detectFaces = async () => {
-      if (
-        videoRef.current &&
-        canvasRef.current &&
-        modelRef.current &&
-        videoRef.current.readyState === 4
-      ) {
-        const predictions = await modelRef.current.estimateFaces(
-          videoRef.current,
-          false
-        );
-        setFaceCount(predictions.length);
-
-        const ctx = canvasRef.current.getContext("2d");
-        if (!ctx) return;
-
-        canvasRef.current.width = videoRef.current.videoWidth;
-        canvasRef.current.height = videoRef.current.videoHeight;
-        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
-        predictions.forEach((face) => {
-         let x = 0,
-           y = 0,
-           width = 0,
-           height = 0;
-
-         if (Array.isArray(face.topLeft)) {
-           x = face.topLeft[0];
-           y = face.topLeft[1];
-           width =
-             (face.bottomRight as [number, number])[0] -
-             (face.topLeft as [number, number])[0];
-           height =
-             (face.bottomRight as [number, number])[1] -
-             (face.topLeft as [number, number])[1];
-         } else if (face.topLeft instanceof Float32Array) {
-           x = face.topLeft[0];
-           y = face.topLeft[1];
-           width =
-             (face.bottomRight as [number, number])[0] -
-             (face.topLeft as unknown as [number, number])[0];
-           height =
-             (face.bottomRight as [number, number])[1] -
-             (face.topLeft as unknown as [number, number])[1];
-         }
-
-          ctx.strokeStyle = "#FF5722";
-          ctx.lineWidth = 2;
-          ctx.strokeRect(x, y, width, height);
-
-          ctx.fillStyle = "#FF5722";
-          ctx.font = "14px sans-serif";
-          ctx.fillText("face", x, y - 4);
-        });
-      }
-
-      animationRef.current = requestAnimationFrame(detectFaces);
-    };
-
-    startCamera();
-    
-
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      const videoElement = videoRef.current;
-      const localVideoElement = videoElement; // Copy ref value to a local variable
-      if (localVideoElement?.srcObject) {
-        (localVideoElement.srcObject as MediaStream)
-          .getTracks()
-          .forEach((t) => t.stop());
-      }
-    };
-    
-  }, []);
-
-  
-
-  const handleSnapshot = () => {
-    const video = videoRef.current;
-    const overlay = canvasRef.current;
-    if (!video || !overlay) return;
-
-    const snapshotCanvas = document.createElement("canvas");
-    snapshotCanvas.width = video.videoWidth;
-    snapshotCanvas.height = video.videoHeight;
-    const ctx = snapshotCanvas.getContext("2d");
-    if (!ctx) return;
-
-    ctx.drawImage(video, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
-    ctx.drawImage(overlay, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
-
-    const dataUrl = snapshotCanvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = `face-snapshot-${new Date().toISOString()}.png`;
-    a.click();
+  // ====== HELPERS ======
+  const cosineSim = (a: number[], b: number[]) => {
+    let dot = 0,
+      na = 0,
+      nb = 0;
+    for (let i = 0; i < a.length; i++) {
+      dot += a[i] * b[i];
+      na += a[i] * a[i];
+      nb += b[i] * b[i];
+    }
+    return dot / (Math.sqrt(na) * Math.sqrt(nb));
   };
 
+  const pct = (sim: number) => Math.max(0, Math.min(100, sim * 100));
+
+  const addOnBus = (label: string) => {
+    setOnBus((prev) => {
+      if (prev.some((p) => p.label === label)) return prev;
+      return [...prev, { label, since: Date.now() }];
+    });
+  };
+
+  const clearOnBus = () => setOnBus([]);
+
+  // ====== INIT ======
+  useEffect(() => {
+    (async () => {
+      // โหลดโมเดล
+      await Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+        faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+        faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+      ]);
+      // เปิดกล้อง
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user", width: VIDEO_W, height: VIDEO_H },
+        audio: false,
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await new Promise((res) => {
+          videoRef.current!.onloadedmetadata = () => {
+            videoRef.current!.play();
+            res(null);
+          };
+        });
+      }
+      // โหลด embeddings เดิม
+      const saved = localStorage.getItem("enrolled_faces");
+      if (saved) setEnrolled(JSON.parse(saved));
+      setStatus("Camera ready");
+    })().catch((e) => setStatus("Error: " + e));
+  }, []);
+
+  // ====== LOOP DETECT ======
+  useEffect(() => {
+    const options = new faceapi.TinyFaceDetectorOptions({
+      inputSize: 192,
+      scoreThreshold: 0.5,
+    });
+
+   const loop = async () => {
+     if (!videoRef.current || !canvasRef.current) return;
+
+     const video = videoRef.current;
+     const canvas = canvasRef.current;
+
+     // ใช้ขนาดจริงจากกล้อง เพื่อไม่ให้สเกลเพี้ยน
+     const vw = video.videoWidth || VIDEO_W;
+     const vh = video.videoHeight || VIDEO_H;
+     canvas.width = vw;
+     canvas.height = vh;
+
+     const ctx = canvas.getContext("2d")!;
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+     const detections = await faceapi
+       .detectAllFaces(video, options)
+       .withFaceLandmarks()
+       .withFaceDescriptors();
+
+     if (!detections || detections.length === 0) {
+       setStatus("ไม่พบใบหน้า");
+       return;
+     }
+
+     detections.forEach((det) => {
+       const emb = Array.from(det.descriptor);
+
+       // หา best match
+       let bestLabel = "Unknown";
+       let bestScore = -1;
+       for (const e of enrolled) {
+         const sim = cosineSim(emb, e.descriptor);
+         if (sim > bestScore) {
+           bestScore = sim;
+           bestLabel = e.label;
+         }
+       }
+
+       // ===== สำคัญ: กลับพิกัดแกน X ให้ตรงกับวิดีโอที่ถูก flip =====
+       const box = det.detection.box;
+       const x = canvas.width - box.x - box.width; // <-- ใช้ค่านี้แทน box.x
+       const y = box.y;
+       const w = box.width;
+       const h = box.height;
+
+       // กรอบ
+       ctx.lineWidth = 3;
+       ctx.strokeStyle = "#22c55e";
+       ctx.strokeRect(x, y, w, h);
+
+       // แถบ % บนกรอบ
+       const percent = pct(Math.max(0, bestScore));
+       const barW = Math.max(0, Math.min(w, (w * percent) / 100));
+       ctx.fillStyle = "#22c55e";
+       ctx.fillRect(x, Math.max(0, y - 8), barW, 6);
+       ctx.fillStyle = "rgba(34,197,94,0.2)";
+       ctx.fillRect(x + barW, Math.max(0, y - 8), w - barW, 6);
+
+       // ป้ายข้อความ
+       const label =
+         bestScore >= THRESHOLD
+           ? `${bestLabel} • ${percent.toFixed(0)}%`
+           : `Unknown • ${percent.toFixed(0)}%`;
+       const padX = 8,
+         padY = 6;
+       ctx.font = "14px ui-sans-serif, system-ui, -apple-system, Segoe UI";
+       const textW = ctx.measureText(label).width;
+
+       ctx.fillStyle = "rgba(0,0,0,0.65)";
+       const rectX = x; // <-- ใช้ x ที่ถูก mirror แล้ว
+       const rectY = y + h + 6;
+       const rectW = textW + padX * 2;
+       const rectH = 24;
+       ctx.fillRect(rectX, rectY, rectW, rectH);
+
+       ctx.fillStyle = "#fff";
+       ctx.fillText(label, rectX + padX, rectY + rectH - padY);
+
+       // อัปเดตสถานะ/ลิสต์
+       if (bestScore >= THRESHOLD && bestLabel !== "Unknown") {
+         addOnBus(bestLabel);
+         setStatus(`พบ: ${bestLabel} (${percent.toFixed(0)}%)`);
+       } else {
+         setStatus(`Unknown (${percent.toFixed(0)}%)`);
+       }
+     });
+   };
+   const timer = setInterval(loop, TICK_MS);
+   return () => clearInterval(timer);
+  }, [enrolled]);
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-      <div className="relative bg-white p-4 rounded-xl shadow-lg w-full max-w-2xl">
-        <h2 className="text-lg font-bold text-gray-800 mb-2">
-          กล้องตรวจจับใบหน้า
-        </h2>
+    <div className="min-h-screen w-full p-4 flex flex-col items-center gap-4">
+      <div className="relative w-full max-w-[720px]">
+        <video
+          ref={videoRef}
+          className="w-full rounded-xl bg-black -scale-x-100" // flip เฉพาะ video
+          autoPlay
+          muted
+          playsInline
+        />
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full rounded-xl pointer-events-none" // canvas ไม่ flip
+        />
+      </div>
 
-        <p className="text-sm text-gray-600 mb-2">
-          ตรวจพบใบหน้า:{" "}
-          <span className="font-bold text-blue-600">{faceCount}</span> คน
-        </p>
+      <p className="text-gray-600">{status}</p>
 
-        <div className="relative w-full rounded-md overflow-hidden">
-          <video ref={videoRef} className="w-full rounded-md" />
-          <canvas
-            ref={canvasRef}
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-          />
-        </div>
-
-        <div className="flex justify-between items-center mt-4">
+      <div className="w-full max-w-[720px]">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-xl font-semibold">รายการขึ้นรถแล้ว</h2>
           <button
-            onClick={handleSnapshot}
-            className="px-4 py-2 bg-red-800 text-white text-sm rounded-lg hover:bg-red-700"
+            onClick={clearOnBus}
+            className="px-3 py-1.5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm"
           >
-            ถ่ายภาพ
-          </button>
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-400 text-white text-sm rounded-lg hover:bg-gray-500"
-          >
-            ✖ ปิด
+            ล้างรายการ
           </button>
         </div>
+
+        {onBus.length === 0 ? (
+          <div className="rounded-xl border border-dashed p-6 text-gray-500">
+            ยังไม่มีรายการขึ้นรถ
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {onBus.map((p) => (
+              <div
+                key={p.label}
+                className="rounded-2xl border shadow-sm p-4 bg-white hover:shadow-md transition"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-lg font-semibold">{p.label}</div>
+                  <span className="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-700 border border-green-300 ">
+                    ขึ้นรถแล้ว
+                  </span>
+                </div>
+                <div className="mt-2 text-sm text-gray-600">
+                  ตั้งแต่เวลา {new Date(p.since).toLocaleTimeString()}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

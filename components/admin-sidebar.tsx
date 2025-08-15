@@ -12,11 +12,27 @@ const AdminSidebar = () => {
     const pathname = usePathname(); // Get the current pathname
 
     const navigationItems = [
-        { href: "/admin", icon: <Users className="h-5 w-5" />, label: "ภาพรวม" },
-        { href: "/admin/camera", icon: <Camera className="h-5 w-5" />, label: "กล้องภายในรถ" },
-        { href: "/admin/settings", icon: <Settings className="h-5 w-5" />, label: "ตั้งค่าระบบ" },
-        { href: "/admin/users", icon: <Users className="h-5 w-5" />, label: "ตั้งค่าผู้ใช้งาน" },
-        { href: "/admin/alerts", icon: <Bell className="h-5 w-5" />, label: "เหตุฉุกเฉิน" },
+      { href: "/admin", icon: <Users className="h-5 w-5" />, label: "ภาพรวม" },
+      {
+        href: "/admin/camera",
+        icon: <Camera className="h-5 w-5" />,
+        label: "กล้องตรวจจับใบหน้า",
+      },
+      {
+        href: "/admin/settings",
+        icon: <Settings className="h-5 w-5" />,
+        label: "ตั้งค่าระบบ",
+      },
+      {
+        href: "/admin/users",
+        icon: <Users className="h-5 w-5" />,
+        label: "ตั้งค่าผู้ใช้งาน",
+      },
+      {
+        href: "/admin/alerts",
+        icon: <Bell className="h-5 w-5" />,
+        label: "เหตุฉุกเฉิน",
+      },
     ];
 
     useEffect(() => {
