@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
 import * as faceapi from "face-api.js";
 import AdminSidebar from "@/components/admin-sidebar";
@@ -42,16 +42,47 @@ export default function FaceEnrollPage() {
     };
   }, []);
 
-  const options = new faceapi.TinyFaceDetectorOptions({
-    inputSize: 192,
-    scoreThreshold: 0.5,
-  });
-
-  // วาดกรอบ (flip เฉพาะ video, overlay ไม่ flip)
-  useEffect(() => {
-    const timer: ReturnType<typeof setInterval> | undefined = undefined;
-    return () => clearInterval(timer);
+  const options = useMemo(() => {
+    return new faceapi.TinyFaceDetectorOptions({
+      inputSize: 192,
+      scoreThreshold: 0.5,
+    });
   }, []);
+
+  // วาดกรอบรอบใบหน้า
+  // วาดกรอบรอบใบหน้า
+  useEffect(() => {
+    const run = async () => {
+      if (!videoRef.current || !canvasRef.current) return;
+
+      const detections = await faceapi
+        .detectAllFaces(videoRef.current, options)
+        .withFaceLandmarks();
+
+      // ทำให้ขนาด canvas match กับ video ปัจจุบัน
+      const dims = faceapi.matchDimensions(
+        canvasRef.current,
+        videoRef.current,
+        true
+      );
+      const resized = faceapi.resizeResults(detections, dims);
+
+      const ctx = canvasRef.current.getContext("2d");
+      if (!ctx) return;
+
+      // เคลียร์ก่อนวาดใหม่ทุกเฟรม
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+      // เพราะคุณใส่ class -scale-x-100 ทั้ง video และ canvas
+      // กรอบจะทาบพอดีแล้ว ไม่ต้องกลับด้วย ctx อีก
+      faceapi.draw.drawDetections(canvasRef.current, resized);
+      faceapi.draw.drawFaceLandmarks(canvasRef.current, resized);
+    };
+
+    const timer = setInterval(run, 200);
+    return () => clearInterval(timer);
+  }, [options]); // options stable จาก useMemo แล้ว
 
   // --- Enroll ใบหน้าใหม่ ---
   const handleEnroll = async () => {
@@ -164,10 +195,9 @@ export default function FaceEnrollPage() {
                   />
                   <canvas
                     ref={canvasRef}
-                    className="absolute inset-0 w-full h-full pointer-events-none"
+                    className="absolute inset-0 w-full h-full pointer-events-none -scale-x-100"
                   />
                 </div>
-
                 {/* Enroll row */}
                 <div className="mt-4 flex flex-col sm:flex-row gap-2">
                   <div className="flex-1">
