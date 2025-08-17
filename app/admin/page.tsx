@@ -3,7 +3,7 @@
 import { Bus, BadgeCheck, Car, Info, Phone, Search } from "lucide-react";
 import AdminSidebar from "@/components/admin-sidebar";
 import Image from "next/image";
-import Map from "@/components/map";
+import MapAdmin from "@/components/map-admin";
 import { AlertTable } from '@/components/alert-table';
 import Link from "next/link";
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
         <AdminSidebar />
         <div className="flex-1 lg:ml-64 md:mb-24">
           <div className="sm:mt-24 md:mt-2 min-w-fit mx-4 h-1/2">
-            <Map />
+            <MapAdmin />
           </div>
 
           <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
