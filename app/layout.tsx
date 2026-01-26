@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Kanit } from "next/font/google";
 import "./globals.css";
 import BottomNavCheck from "@/components/bottom-nav-check";
+import Providers from "@/components/providers";
 
 const kanit = Kanit({
   variable: "--font-kanit",
@@ -22,8 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/logo.png" />
       </head>
       <body className={`${kanit.variable} antialiased`}>
-        {children}
-        <BottomNavCheck />
+        <Providers>
+          {children}
+          <BottomNavCheck />
+        </Providers>
       </body>
     </html>
   );
