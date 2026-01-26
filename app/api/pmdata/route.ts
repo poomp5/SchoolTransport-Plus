@@ -1,31 +1,50 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-export async function GET() {
-    try {
-        const response = await fetch(
-            `https://api.waqi.info/feed/geo:13.7563;100.5018/?token=6f7ec77ee1e9ce204d9b661ff4ac1a3b986c57f5`
-        );
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const token =
+    process.env.WAQI_TOKEN ||
+    process.env.NEXT_PUBLIC_WAQI_TOKEN ||
+    searchParams.get("token");
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+  if (!token) {
+    return NextResponse.json(
+      { error: "WAQI_TOKEN is not configured" },
+      { status: 400 },
+    );
+  }
 
-        const data = await response.json();
+  try {
+    const response = await fetch(
+      `https://api.waqi.info/feed/geo:13.7563;100.5018/?token=${token}`,
+      { cache: "no-store" },
+    );
 
-        // Log the full response to inspect the structure
-        console.log(data);
-
-        // Ensure the expected structure exists before sending the response
-        if (data && data.data && data.data.iaqi && data.data.iaqi.pm25) {
-            return NextResponse.json({
-                aqi: data.data.aqi,
-                pm25: data.data.iaqi.pm25.v,
-            });
-        } else {
-            throw new Error("Invalid response structure");
-        }
-    } catch (error) {
-        console.error("Error fetching PM data:", error);
-        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    if (!response.ok) {
+      const text = await response.text().catch(() => "");
+      return NextResponse.json(
+        { error: "Upstream AQI API error", status: response.status, body: text },
+        { status: response.status },
+      );
     }
+
+    const data = await response.json();
+    if (data && data.data && data.data.iaqi && data.data.iaqi.pm25) {
+      return NextResponse.json({
+        aqi: data.data.aqi,
+        pm25: data.data.iaqi.pm25.v,
+      });
+    }
+
+    return NextResponse.json(
+      { error: "Unexpected AQI response shape" },
+      { status: 502 },
+    );
+  } catch (error) {
+    console.error("PM route error:", error);
+    return NextResponse.json(
+      { error: "Unable to reach AQI API" },
+      { status: 502 },
+    );
+  }
 }

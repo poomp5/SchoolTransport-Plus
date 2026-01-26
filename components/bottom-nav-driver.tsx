@@ -13,7 +13,7 @@ export default function BottomNavDriver() {
         { name: 'การตั้งค่า', href: '/driver/settings', icon: Settings },
     ]
     return (
-        <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200">
+        <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 md:hidden">
             <div className="grid h-full max-w-lg grid-cols-3 mx-auto">
                 {navItems.map((item) => {
                     const Icon = item.icon

@@ -1,9 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Sun, Wind, Droplet, Cloud, CloudRain } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Sun,
+  Droplet,
+  Cloud,
+  CloudRain,
+  Gauge,
+  AlertTriangle,
+  Navigation,
+  Clock as ClockIcon,
+  LayoutDashboard,
+  Map as MapIcon,
+  Radio,
+  LifeBuoy,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import type { JSX } from "react";
 
 interface WeatherData {
   WeatherForecasts?: Array<{
@@ -12,8 +26,6 @@ interface WeatherData {
       data: {
         tc: number;
         rh: number;
-        rain: number;
-        ws10m: number;
         cond: number;
       };
     }>;
@@ -34,38 +46,35 @@ export default function Home() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [pmData, setPmData] = useState<PMData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      try {
-        const response = await fetch("/api/weather?lat=13.732924&lon=100.371428");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setWeatherData(data);
-      } catch (error) {
-        console.error("Error fetching weather data:", error);
-        setError(error instanceof Error ? error.message : "Failed to fetch weather data");
+      const response = await fetch(
+        "/api/weather?lat=13.732924&lon=100.371428",
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      const data = await response.json();
+      setWeatherData(data);
     };
 
     const fetchPmData = async () => {
-      try {
-        const response = await fetch('/api/pmdata');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setPmData(data);
-      } catch (error) {
-        console.error("Error fetching PM2.5 data:", error);
-        setError(error instanceof Error ? error.message : "Failed to fetch PM2.5 data");
+      const response = await fetch("/api/pmdata");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      const data = await response.json();
+      setPmData(data);
     };
 
-    fetchWeatherData();
-    fetchPmData();
+    Promise.all([fetchWeatherData(), fetchPmData()])
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setError(err instanceof Error ? err.message : "โหลดข้อมูลไม่สำเร็จ");
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const getCurrentWeather = () => {
@@ -74,13 +83,25 @@ export default function Home() {
   };
 
   const currentWeather = getCurrentWeather();
-  const currentDate = new Date().toLocaleDateString('th-TH', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',  
-    year: 'numeric',
+  const currentDate = new Date().toLocaleDateString("th-TH", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   });
 
+  const pmCategory = useMemo(() => {
+    if (!pmData?.pm25 && pmData?.pm25 !== 0) return null;
+    const v = pmData.pm25;
+    if (v <= 12) return { label: "ดีมาก", color: "text-emerald-600 bg-emerald-50" };
+    if (v <= 35.4) return { label: "ปานกลาง", color: "text-amber-600 bg-amber-50" };
+    if (v <= 55.4) return { label: "เริ่มมีผล", color: "text-orange-600 bg-orange-50" };
+    if (v <= 150.4) return { label: "ไม่ดีต่อสุขภาพ", color: "text-red-600 bg-red-50" };
+    return { label: "อันตราย", color: "text-rose-700 bg-rose-50" };
+  }, [pmData?.pm25]);
+
+  const humidity = currentWeather?.data.rh ?? null;
+  const temp = currentWeather?.data.tc ?? null;
 
   const getWeatherIcon = (condition: number) => {
     switch (condition) {
@@ -96,147 +117,290 @@ export default function Home() {
         return <Cloud className="w-12 h-12 text-gray-400" />;
     }
   };
-  return (
-    <div className="min-h-screen bg-gradient-to-t from-green-700 via-green-800 to-green-400 pb-24">
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center text-white mb-8">
-          <h1 className="text-3xl font-bold mb-2">รายงานคุณภาพอากาศ</h1>
-          <p className="text-xl">{currentDate}</p>
-        </div>
-        <div className="max-w-2xl mx-auto">
-          <div className="relative w-64 h-64 mx-auto mb-2">
-            <div className="absolute inset-0 overflow-hidden">
-              <Image
-                src={'/panda_mask.png'}
-                alt="Panda"
-                width={256}
-                height={256}
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
 
-          {/* PM2.5 Value Display */}
-          <div className="text-center mb-8">
-            <div className="rounded-xl w-full py-4 mx-auto flex items-center justify-center">
-              <div>
-                <div className="text-4xl font-bold text-white">
-                  {pmData?.pm25 || '--'} µg./m3.
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 text-gray-900">
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,#8B0000_0,transparent_35%),radial-gradient(circle_at_80%_0%,#ef4444_0,transparent_28%)]" />
+        <div className="relative container mx-auto px-4 py-10 md:py-14">
+          <DesktopNav />
+          <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full bg-rose-100 text-rose-700 px-4 py-2 text-sm font-medium shadow-sm">
+                <Gauge className="h-4 w-4" />
+                School Transport • Air Quality
+              </div>
+              <div className="space-y-2">
+                <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
+                  รายงานคุณภาพอากาศวันนี้
+                </h1>
+                <p className="text-lg text-gray-600 flex items-center gap-2">
+                  <ClockIcon className="h-4 w-4 text-rose-600" />
+                  {currentDate}
+                </p>
+              </div>
+              <p className="text-gray-600 max-w-2xl">
+                ติดตามสภาพอากาศ PM2.5 และความชื้น
+                ครบจบในหน้าเดียว พร้อมปุ่มเข้าสู่ระบบคนขับและหลังบ้าน.
+              </p>
+              <div className="flex gap-3 flex-wrap">
+                <Link href="/admin" className="flex-1 min-w-[160px]">
+                  <button className="w-full rounded-xl bg-[#8B0000] text-white py-3.5 px-4 font-semibold shadow-lg shadow-rose-200/60 hover:bg-[#750000] transition-colors">
+                    เข้าระบบหลังบ้าน
+                  </button>
+                </Link>
+                <Link href="/driver" className="flex-1 min-w-[160px]">
+                  <button className="w-full rounded-xl border border-gray-300 bg-white text-gray-900 py-3.5 px-4 font-semibold hover:border-gray-400 transition-colors">
+                    สำหรับคนขับรถ
+                  </button>
+                </Link>
+              </div>
+              {error && (
+                <div className="inline-flex items-center gap-2 rounded-lg bg-amber-50 text-amber-800 px-3 py-2 text-sm">
+                  <AlertTriangle className="h-4 w-4" />
+                  {error}
                 </div>
-                <div className="mt-2 text-white/80">
-                  {
-                    pmData && pmData.pm25 ? (
-                      "สภาพอากาศปกติ"
+              )}
+            </div>
+
+            <div className="relative">
+              <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-rose-100 blur-2xl" />
+              <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">กรุงเทพมหานคร</p>
+                    <div className="flex items-baseline gap-2">
+                      <p className="text-6xl font-semibold">
+                        {temp !== null ? Math.round(temp) : "--"}°
+                      </p>
+                      <span className="text-gray-500 text-sm">
+                        {humidity !== null ? `${Math.round(humidity)}% RH` : ""}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl bg-gray-50 p-3">
+                    {currentWeather ? (
+                      getWeatherIcon(currentWeather.data.cond)
                     ) : (
-                      <p className="text-sm text-gray-500">กำลังโหลดข้อมูล...</p>
-                    )
-                  }
+                      <Cloud className="w-12 h-12 text-gray-300" />
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <StatChip
+                    icon={<Droplet className="h-4 w-4" />}
+                    label="ความชื้น"
+                    value={humidity !== null ? `${Math.round(humidity)}%` : "--"}
+                  />
+                  <StatChip
+                    icon={<Navigation className="h-4 w-4" />}
+                    label="AQI"
+                    value={pmData?.aqi ?? "--"}
+                  />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* <div className="bg-gray-800/90 text-white rounded-xl p-4 text-center mb-8">
-            <p className="">
-              งดการทำกิจกรรมกลางแจ้งทุกประเภท
-              <br />
-              สวมหน้ากากอนามัย N95 เมื่ออยู่กลางแจ้งตลอดเวลา
-            </p>
-          </div> */}
-
-          <div className="bg-white rounded-xl p-6 shadow-md border border-1 border-gray-100">
-            {error ? (
-              <p className="text-red-500">{error}</p>
-            ) : !currentWeather ? (
-              <p>กำลังโหลดข้อมูล...</p>
-            ) : (
-              <>
-                <div className="flex justify-between items-start mb-8">
+          <div className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 md:p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-rose-100 text-rose-700 grid place-items-center">
+                    <Droplet className="h-5 w-5" />
+                  </div>
                   <div>
-                    <h2 className="text-6xl font-light mb-2">
-                      {Math.round(currentWeather.data.tc) }°
-                    </h2>
-                    <p className="text-gray-500">กรุงเทพมหานคร</p>
-                  </div>
-                  <div className="mt-2">{getWeatherIcon(currentWeather.data.cond)}</div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* PM2.5 */}
-                  <div className="bg-gray-50 p-4 rounded-xl">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Wind className="w-5 h-5 text-purple-500" />
-                      <span className="text-sm text-gray-600">PM2.5</span>
-                    </div>
-                    {
-                      pmData && pmData.pm25 ? (
-                        <>
-                          <p className="text-xl font-semibold">{pmData.pm25} µg/m³</p>
-                          <p className="text-sm text-gray-500">
-                            {pmData.pm25 <= 12
-                              ? "ดี"
-                              : pmData.pm25 <= 35.4
-                                ? "ปานกลาง"
-                                : pmData.pm25 <= 55.4
-                                  ? "ปานกลาง"
-                                  : pmData.pm25 <= 150.4
-                                    ? "ไม่ดีต่อสุขภาพ"
-                                    : pmData.pm25 <= 250.4
-                                      ? "มีผลกระทบต่อสุขภาพ"
-                                      : "อันตราย"}
-                          </p>
-                        </>
-                      ) : (
-                        <p className="text-sm text-white/90">กำลังโหลดข้อมูล...</p>
-                      )
-                    }
-                  </div>
-                  {/* UV Index */}
-                  <div className="bg-gray-50 p-4 rounded-xl">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Sun className="w-5 h-5 text-yellow-500" />
-                      <span className="text-sm text-gray-600">UV Index</span>
-                    </div>
-                    <p className="text-xl font-semibold">6 of 10</p>
-                    <p className="text-sm text-gray-500">ปานกลาง</p>
-                  </div>
-
-                  {/* Humidity */}
-                  <div className="bg-gray-50 p-4 rounded-xl">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Droplet className="w-5 h-5 text-blue-500" />
-                      <span className="text-sm text-gray-600">ความชื้น</span>
-                    </div>
-                    <p className="text-xl font-semibold">{Math.round(currentWeather.data.rh)}%</p>
-                    <p className="text-sm text-gray-500">
-                      {currentWeather.data.rh > 70
-                        ? "สูง"
-                        : currentWeather.data.rh < 30
-                          ? "ต่ำ"
-                          : "ปานกลาง"}
+                    <p className="text-sm text-gray-600">ค่า PM2.5 ปัจจุบัน</p>
+                    <p className="text-2xl font-semibold">
+                      {pmData?.pm25 ?? "--"} µg/m³
                     </p>
                   </div>
-
                 </div>
-              </>
-            )}
-          </div>
+                {pmCategory && (
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${pmCategory.color}`}
+                  >
+                    {pmCategory.label}
+                  </span>
+                )}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                <SmallCard
+                  title="อุณหภูมิ"
+                  value={temp !== null ? `${Math.round(temp)}°C` : "--"}
+                  icon={<Sun className="h-4 w-4 text-amber-500" />}
+                />
+                <SmallCard
+                  title="ความชื้น"
+                  value={humidity !== null ? `${Math.round(humidity)}%` : "--"}
+                  icon={<Droplet className="h-4 w-4 text-blue-500" />}
+                />
+              </div>
+              {loading && (
+                <p className="text-sm text-gray-500 mt-4">กำลังโหลดข้อมูล...</p>
+              )}
+            </div>
 
-          {/* Footer Links */}
-          <div className="flex justify-between mt-8 gap-4">
-            <Link href="/admin" className="w-full">
-              <button className="w-full bg-white text-gray-800 py-3 rounded-lg hover:bg-gray-200 transition-colors">
-                ระบบหลังบ้าน
-              </button>
-            </Link>
-            <Link href="/driver" className="w-full">
-              <button className="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-700 transition-colors">
-                สำหรับคนขับรถ
-              </button>
-            </Link>
+            <div className="bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#1f2937] text-white rounded-3xl shadow-2xl overflow-hidden">
+              <div className="p-6 md:p-8 flex flex-col gap-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-white/10 grid place-items-center">
+                    <Image
+                      src="/panda_mask.png"
+                      alt="Panda"
+                      width={64}
+                      height={64}
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-300">คำแนะนำวันนี้</p>
+                    <p className="text-xl font-semibold">ป้องกันฝุ่นละเอียด</p>
+                  </div>
+                </div>
+                <div className="space-y-3 text-gray-200 text-sm leading-relaxed">
+                  <p>• สวมหน้ากากเมื่ออยู่กลางแจ้ง โดยเฉพาะช่วงเช้า</p>
+                  <p>• หลีกเลี่ยงการออกกำลังกายหนัก หากค่า PM2.5 เกิน 35 µg/m³</p>
+                  <p>• ตรวจสอบค่า AQI ก่อนออกเดินทางและเลือกเส้นทางอากาศดีกว่า</p>
+                </div>
+                <div className="flex gap-3 flex-wrap">
+                  <Link href="/status" className="flex-1 min-w-[150px]">
+                    <button className="w-full rounded-xl bg-white text-gray-900 py-3 font-semibold hover:bg-gray-100 transition-colors">
+                      ดูแผนที่รถรับส่งสด
+                    </button>
+                  </Link>
+                  <Link href="/overview" className="flex-1 min-w-[150px]">
+                    <button className="w-full rounded-xl border border-white/30 text-white py-3 font-semibold hover:bg-white/10 transition-colors">
+                      สถิติการใช้งาน
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function StatChip({
+  icon,
+  label,
+  value,
+}: {
+  icon: JSX.Element;
+  label: string;
+  value: string | number;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 px-3 py-3">
+      <div className="h-9 w-9 rounded-xl bg-white shadow-sm grid place-items-center text-rose-600">
+        {icon}
+      </div>
+      <div>
+        <p className="text-xs text-gray-500">{label}</p>
+        <p className="text-sm font-semibold text-gray-900">{value}</p>
+      </div>
+    </div>
+  );
+}
+
+function SmallCard({
+  title,
+  value,
+  icon,
+}: {
+  title: string;
+  value: string;
+  icon: JSX.Element;
+}) {
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4 flex items-start gap-3">
+      <div className="h-9 w-9 rounded-xl bg-white shadow-sm grid place-items-center">
+        {icon}
+      </div>
+      <div>
+        <p className="text-xs text-gray-500">{title}</p>
+        <p className="text-lg font-semibold text-gray-900">{value}</p>
+      </div>
+    </div>
+  );
+}
+
+function QuickLink({
+  href,
+  icon,
+  label,
+  accent = false,
+}: {
+  href: string;
+  icon: JSX.Element;
+  label: string;
+  accent?: boolean;
+}) {
+  return (
+    <Link href={href} className="flex-1 min-w-[90px]">
+      <button
+        className={`w-full flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-colors ${
+          accent
+            ? "bg-[#8B0000] text-white shadow-lg shadow-rose-200/60 hover:bg-[#750000]"
+            : "bg-white border border-gray-200 text-gray-800 hover:border-gray-300"
+        }`}
+      >
+        <span className="shrink-0">{icon}</span>
+        <span>{label}</span>
+      </button>
+    </Link>
+  );
+}
+
+function DesktopNav() {
+  return (
+    <header className="mb-10 hidden md:block">
+      <div className="flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3">
+          <div className="h-11 w-11 rounded-xl border border-gray-200 grid place-items-center">
+            <Image
+              src="/logo.png"
+              alt="School Transport Plus"
+              width={44}
+              height={44}
+              className="object-cover w-full"
+              priority
+            />
+          </div>
+          <div>
+            <p className="text-base font-semibold text-gray-900">School Transport +</p>
+            <p className="text-xs text-gray-500">รถรับส่งครบจบในที่เดียว</p>
+          </div>
+        </Link>
+        <div className="flex items-center whitespace-nowrap gap-2">
+          <QuickLink
+            href="/admin"
+            icon={<LayoutDashboard className="h-4 w-4" />}
+            label="หลังบ้าน"
+            accent
+          />
+          <QuickLink
+            href="/driver"
+            icon={<LifeBuoy className="h-4 w-4" />}
+            label="คนขับรถ"
+          />
+          <QuickLink
+            href="/status"
+            icon={<MapIcon className="h-4 w-4" />}
+            label="Live Map"
+          />
+          <QuickLink
+            href="/admin/rfid"
+            icon={<Radio className="h-4 w-4" />}
+            label="RFID Log"
+          />
+        </div>
+      </div>
+    </header>
   );
 }

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // Import usePathname
-import { Menu, X, Users, Settings, Bell, Camera } from "lucide-react";
+import { Menu, X, Users, Settings, Bell, Camera, Radio } from "lucide-react";
 
 const AdminSidebar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,6 +17,11 @@ const AdminSidebar = () => {
         href: "/admin/camera",
         icon: <Camera className="h-5 w-5" />,
         label: "กล้องตรวจจับใบหน้า",
+      },
+      {
+        href: "/admin/rfid",
+        icon: <Radio className="h-5 w-5" />,
+        label: "RFID Log",
       },
       {
         href: "/admin/settings",
