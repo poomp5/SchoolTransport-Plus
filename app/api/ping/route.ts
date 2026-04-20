@@ -1,11 +1,13 @@
 let latest = { uid: "—", label: "—", id: "" };
 
 export async function POST(req: Request) {
-  const { uid, label, id } = await req.json();
-  latest = { uid, label, id: id ?? "" };
-  return Response.json({ ok: true });
-}
+  const { uid, studentId } = await req.json();
 
-export async function GET() {
-  return Response.json(latest);
+  latest = {
+    uid,
+    label: "Student",   // or anything you want
+    id: studentId ?? ""
+  };
+
+  return Response.json({ ok: true });
 }
