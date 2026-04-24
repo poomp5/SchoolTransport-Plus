@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let latest = { uid: "—", label: "—", id: "" };
 
 export async function POST(req: Request) {

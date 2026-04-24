@@ -1,48 +1,37 @@
 import 'server-only';
-import path from "path";
-import dotenv from "dotenv";
-
-// Ensure env vars are loaded when Next server spins routes in dev
-dotenv.config({ path: path.join(process.cwd(), ".env.local") });
-
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { Pool, neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
 
-// Provide a WebSocket implementation for Neon (Node 18/20 don't have one)
-try {
-  // Prefer real ws if installed
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-  neonConfig.webSocketConstructor = require("ws");
-} catch {
-  try {
-    // Fallback: Next.js bundles ws internally
-    // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-    neonConfig.webSocketConstructor = require("next/dist/compiled/ws");
-  } catch {
-    console.warn(
-      "No WebSocket implementation found. Install 'ws' to enable Neon connections in Node.",
-    );
-  }
-}
+// 1. Configure WebSocket for Neon
+// This is required for the serverless driver to work in Node environments
+neonConfig.webSocketConstructor = ws;
 
 const connectionString = process.env.DATABASE_URL;
+
 if (!connectionString) {
-  throw new Error("DATABASE_URL is not set; check your .env.local or deployment env");
+  throw new Error("DATABASE_URL is not set; check your .env or deployment env");
 }
 
-// Neon serverless adapter (required for Prisma 7 driver adapters)
-const neon = new Pool({ connectionString });
-const adapter = new PrismaNeon(neon);
+// 2. Initialize the Pool
+const pool = new Pool({ connectionString });
 
-// Ensure PrismaClient is a singleton across hot reloads in dev
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
+/**
+ * We use a linter ignore here because @prisma/adapter-neon and 
+ * @neondatabase/serverless have a known internal type mismatch.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const adapter = new PrismaNeon(pool as any);
+
+// 3. Singleton pattern for PrismaClient to prevent exhaustion in dev
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
     adapter,
-    log: process.env.NODE_ENV === "development" ? ["query", "error"] : ["error"],
+    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
   });
 
 if (process.env.NODE_ENV !== "production") {
