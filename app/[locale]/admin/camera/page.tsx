@@ -3,7 +3,7 @@
 import { useState } from "react";
 import CameraModal from "@/components/camera-model";
 import AdminSidebar from "@/components/admin-sidebar";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Plus, Video } from "lucide-react";
 
 export default function CameraPage() {

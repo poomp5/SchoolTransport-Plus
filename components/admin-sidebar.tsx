@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation"; // Import usePathname
-import { Menu, X, Users, Settings, Bell, Camera, Radio } from "lucide-react";
+import { Link, usePathname } from "@/i18n/navigation";
+import { Menu, X, Users, Settings, Bell, Radio } from "lucide-react";
 
 const AdminSidebar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -13,11 +12,6 @@ const AdminSidebar = () => {
 
     const navigationItems = [
       { href: "/admin", icon: <Users className="h-5 w-5" />, label: "ภาพรวม" },
-      {
-        href: "/admin/camera",
-        icon: <Camera className="h-5 w-5" />,
-        label: "กล้องตรวจจับใบหน้า",
-      },
       {
         href: "/admin/rfid",
         icon: <Radio className="h-5 w-5" />,

@@ -1,0 +1,173 @@
+{
+  "nav": {
+    "brand": "School Transport +",
+    "tagline": "School transit, all in one place",
+    "admin": "Admin",
+    "driver": "Driver",
+    "liveMap": "Live Map",
+    "rfidLog": "RFID Log",
+    "about": "About",
+    "weather": "Weather",
+    "overview": "Overview",
+    "busStatus": "Bus Status",
+    "contact": "Contact Admin",
+    "language": "Language"
+  },
+  "home": {
+    "badge": "School Transport • Air Quality",
+    "title": "Today's Air Quality Report",
+    "intro": "Track the weather, PM2.5 and humidity in one place, with quick access for drivers and the admin back office.",
+    "enterAdmin": "Admin Console",
+    "forDrivers": "For Drivers",
+    "loadError": "Failed to load data",
+    "city": "Bangkok",
+    "humidity": "Humidity",
+    "aqi": "AQI",
+    "currentPm25": "Current PM2.5",
+    "temperature": "Temperature",
+    "loading": "Loading data...",
+    "advice": "Today's Advice",
+    "adviceTitle": "Protect against fine dust",
+    "advice1": "Wear a mask outdoors, especially in the morning.",
+    "advice2": "Avoid strenuous exercise when PM2.5 exceeds 35 µg/m³.",
+    "advice3": "Check the AQI before travelling and pick a cleaner route.",
+    "liveMapBtn": "Live Bus Map",
+    "statsBtn": "Usage Statistics",
+    "pm": {
+      "veryGood": "Very Good",
+      "moderate": "Moderate",
+      "unhealthySensitive": "Unhealthy (Sensitive)",
+      "unhealthy": "Unhealthy",
+      "hazardous": "Hazardous"
+    }
+  },
+  "about": {
+    "kicker": "Genius Olympiad 2026 • Project ID 7458",
+    "title": "School Transport Plus",
+    "subtitle": "Elevating School Transit, All in One Place",
+    "lead": "School Transport Plus is a data-driven IoT transportation management platform designed to improve school commuting through RFID identification, GPS tracking, real-time notifications, and centralized administration.",
+    "prototype": "Prototype",
+    "prototypeUrl": "https://act.poomp5.com",
+
+    "introTitle": "Introduction",
+    "introBody": "School transportation plays a critical role in helping parents send students to school safely while reducing traffic congestion around campuses. School Transport Plus was developed to transform traditional school transportation into a smart, measurable, and efficient ecosystem.",
+    "introList": [
+      "RFID Student Identification",
+      "Real-Time GPS Tracking",
+      "LINE Notification System",
+      "Centralized Management Dashboard",
+      "Data Analytics & Environmental Monitoring"
+    ],
+    "introGoal": "Our goal is to create a one-stop-service transportation platform that builds trust between schools, parents, and transportation providers.",
+
+    "problemTitle": "Problem Statement",
+    "problemIntro": "Large urban schools face several transportation challenges:",
+    "problemList": [
+      "Peak-hour traffic congestion",
+      "Manual attendance tracking",
+      "Lack of real-time vehicle visibility",
+      "Communication delays between schools and parents",
+      "Excess fuel consumption and carbon emissions"
+    ],
+    "caseStudyTitle": "Case Study: Assumption College Thonburi",
+    "caseStudyList": [
+      "More than 4,500 students",
+      "High vehicle density during peak hours",
+      "Significant traffic bottlenecks during drop-off and pick-up periods"
+    ],
+
+    "objectivesTitle": "Objectives",
+    "objectivesList": [
+      "Improve transportation efficiency.",
+      "Enhance student safety.",
+      "Provide real-time visibility for parents.",
+      "Reduce administrative workload.",
+      "Collect transportation data for decision making.",
+      "Measure environmental impact through data analytics."
+    ],
+
+    "featuresTitle": "Key Features",
+    "features": [
+      {
+        "name": "RFID Student Identification",
+        "desc": "Students tap their RFID cards when boarding the vehicle for accurate attendance recording, instant status updates, and reduced human error."
+      },
+      {
+        "name": "GPS Vehicle Tracking",
+        "desc": "Real-time location tracking enables parent monitoring, vehicle route visibility, and accurate arrival estimation."
+      },
+      {
+        "name": "LINE Notifications",
+        "desc": "Automatic notifications are sent when a student boards the vehicle, arrives at school, leaves school, and arrives home."
+      },
+      {
+        "name": "Management Dashboard",
+        "desc": "Administrators monitor vehicle locations, student status, travel logs, driver activity, and historical transportation data."
+      },
+      {
+        "name": "Data Analytics",
+        "desc": "The system collects boarding records, travel distance, vehicle utilization, and peak-hour trends to support future planning."
+      }
+    ],
+
+    "techTitle": "Technology Stack",
+    "techGroups": [
+      { "group": "Frontend", "items": ["Next.js"] },
+      { "group": "Backend", "items": ["Next.js API Routes", "Server-side Data Processing"] },
+      { "group": "Database", "items": ["Neon PostgreSQL", "Prisma ORM"] },
+      { "group": "IoT Hardware", "items": ["Arduino UNO R4 WiFi", "RFID Reader Module"] }
+    ],
+
+    "resultsTitle": "Results",
+    "resultsScale": [
+      "25,200 RFID boarding records",
+      "20-day traffic observation period",
+      "Multiple-day repeated measurements"
+    ],
+    "performanceTitle": "System Performance",
+    "performance": [
+      { "metric": "RFID Accuracy", "value": "99.85%" },
+      { "metric": "False Positive Rate", "value": "0%" },
+      { "metric": "Packet Loss Rate", "value": "0.35%" },
+      { "metric": "System Uptime", "value": "99.2%" }
+    ],
+
+    "impactTitle": "Environmental Impact",
+    "impact": [
+      { "label": "Vehicle Reduction", "value": "-67.7%" },
+      { "label": "Congestion Index Reduction", "value": "-29.2%" },
+      { "label": "Daily Vehicle Reduction", "value": "880 vehicles/day" },
+      { "label": "Daily CO₂ Reduction", "value": "675.84 kg CO₂/day" },
+      { "label": "Annual CO₂ Reduction", "value": "135.17 tons CO₂/year" }
+    ],
+    "impactModel": "Environmental impact model: ΔCO₂ = ΔVehicles × Distance × Emission Factor (0.192 kg CO₂ / km). Reference: IPCC Guidelines for National Greenhouse Gas Inventories (2006).",
+
+    "scalabilityTitle": "Scalability",
+    "scalabilityList": [
+      "Private Schools",
+      "Public Schools",
+      "Employee Transportation",
+      "Logistics Operations",
+      "Smart City Mobility Systems"
+    ],
+
+    "conclusionTitle": "Conclusion",
+    "conclusionBody": "School Transport Plus demonstrates that a data-driven IoT transportation framework can significantly improve school transportation management through RFID identification, GPS tracking, cloud-based analytics, and automated notifications.",
+    "conclusionList": [
+      "Increased student safety",
+      "Improved transportation efficiency",
+      "Reduced administrative workload",
+      "Data-driven operational planning",
+      "Measurable environmental benefits"
+    ],
+
+    "teamTitle": "Developed By",
+    "team": ["Poonyapat Goonmanoon", "Nattasit Manapiyawong"],
+    "advisorTitle": "Project Advisor",
+    "advisor": "Phitchaphorn Prayoon-Anutep",
+    "motto": "\"Transforming School Commuting into a Measurable Environmental System\""
+  },
+  "common": {
+    "backHome": "Back to Home"
+  }
+}

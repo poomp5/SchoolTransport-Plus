@@ -27,6 +27,7 @@
     "lucide-react": "^0.473.0",
     "next": "15.1.11",
     "next-auth": "^4.24.11",
+    "next-intl": "^4.13.0",
     "prisma": "^7.3.0",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",

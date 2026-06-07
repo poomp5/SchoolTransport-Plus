@@ -24,7 +24,7 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
   ssr: false,
 });
 
-const DEFAULT_CENTER: LatLng = [13.7330125, 100.3702514]; // ตำแหน่งตั้งต้น (เช่น โรงเรียน/ศูนย์งาน)
+const DEFAULT_CENTER: LatLng = [43.1160653, -77.5119079]; // St. John Fisher University
 
 const MapAdmin = () => {
   const [userLocation, setUserLocation] = useState<LatLng | null>(null);
@@ -45,7 +45,7 @@ const MapAdmin = () => {
     }
   }, []);
 
-  // สร้างตำแหน่งรถ TIA01–TIA20 กระจายรอบจุดอ้างอิง (ผู้ใช้หรือดีฟอลต์)
+  // สร้างตำแหน่งรถ GO01–GO40 กระจายรอบจุดอ้างอิง (ผู้ใช้หรือดีฟอลต์)
   useEffect(() => {
     const center = userLocation ?? DEFAULT_CENTER;
     // สุ่มกระจายรัศมี 300–1200 เมตร
@@ -73,10 +73,10 @@ const MapAdmin = () => {
 
     // สร้างครั้งเดียวต่อการเปลี่ยน center (เช่น ได้ตำแหน่งผู้ใช้แล้ว)
     const names = Array.from(
-      { length: 20 },
-      (_, i) => `TIA${String(i + 1).padStart(2, "0")}`
+      { length: 40 },
+      (_, i) => `GO${String(i + 1).padStart(2, "0")}`
     );
-    const pts = genAround(center, 20);
+    const pts = genAround(center, 40);
     setBuses(names.map((id, i) => ({ id, pos: pts[i] })));
   }, [userLocation]);
 
@@ -121,7 +121,7 @@ const makeBusIcon = (label: string) =>
           color: #fff;
           z-index:1;
           text-shadow:0 1px 2px rgba(0,0,0,.6);
-        ">TIA${label}</span>
+        ">${label}</span>
       </div>
     `,
     iconSize: [48, 48],
@@ -143,7 +143,7 @@ const makeBusIcon = (label: string) =>
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="Thailand Innovation Awards 2025 | &copy openstreetmap.org"
+          attribution="Genius Olympiad 2026 | &copy openstreetmap.org"
         />
 
         {/* ตำแหน่งผู้ใช้ */}
@@ -165,9 +165,9 @@ const makeBusIcon = (label: string) =>
         )}
 
         {buses.map((b) => (
-          <Marker key={b.id} position={b.pos} icon={makeBusIcon(b.id.slice(3))}>
+          <Marker key={b.id} position={b.pos} icon={makeBusIcon(b.id)}>
             <Popup>
-              <span className="kanit">รถโรงเรียน {b.id}</span>
+              <span className="kanit">School bus {b.id}</span>
             </Popup>
           </Marker>
         ))}

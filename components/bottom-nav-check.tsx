@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import BottomNav from "@/components/bottom-nav";
 import BottomNavDriver from "./bottom-nav-driver";
 

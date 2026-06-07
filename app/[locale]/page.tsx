@@ -14,9 +14,12 @@ import {
   Map as MapIcon,
   Radio,
   LifeBuoy,
+  Info,
 } from "lucide-react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import LanguageSwitcher from "@/components/language-switcher";
 import type { JSX } from "react";
 
 interface WeatherData {
@@ -43,6 +46,8 @@ interface PMData {
 }
 
 export default function Home() {
+  const t = useTranslations("home");
+  const locale = useLocale();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [pmData, setPmData] = useState<PMData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -72,10 +77,12 @@ export default function Home() {
     Promise.all([fetchWeatherData(), fetchPmData()])
       .catch((err) => {
         console.error("Fetch error:", err);
-        setError(err instanceof Error ? err.message : "โหลดข้อมูลไม่สำเร็จ");
+        setError(err instanceof Error ? err.message : "load-error");
       })
       .finally(() => setLoading(false));
   }, []);
+
+  const errorMessage = error === "load-error" ? t("loadError") : error;
 
   const getCurrentWeather = () => {
     if (!weatherData?.WeatherForecasts?.[0]?.forecasts) return null;
@@ -83,22 +90,25 @@ export default function Home() {
   };
 
   const currentWeather = getCurrentWeather();
-  const currentDate = new Date().toLocaleDateString("th-TH", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const currentDate = new Date().toLocaleDateString(
+    locale === "th" ? "th-TH" : "en-US",
+    {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    },
+  );
 
   const pmCategory = useMemo(() => {
     if (!pmData?.pm25 && pmData?.pm25 !== 0) return null;
     const v = pmData.pm25;
-    if (v <= 12) return { label: "ดีมาก", color: "text-emerald-600 bg-emerald-50" };
-    if (v <= 35.4) return { label: "ปานกลาง", color: "text-amber-600 bg-amber-50" };
-    if (v <= 55.4) return { label: "เริ่มมีผล", color: "text-orange-600 bg-orange-50" };
-    if (v <= 150.4) return { label: "ไม่ดีต่อสุขภาพ", color: "text-red-600 bg-red-50" };
-    return { label: "อันตราย", color: "text-rose-700 bg-rose-50" };
-  }, [pmData?.pm25]);
+    if (v <= 12) return { label: t("pm.veryGood"), color: "text-emerald-600 bg-emerald-50" };
+    if (v <= 35.4) return { label: t("pm.moderate"), color: "text-amber-600 bg-amber-50" };
+    if (v <= 55.4) return { label: t("pm.unhealthySensitive"), color: "text-orange-600 bg-orange-50" };
+    if (v <= 150.4) return { label: t("pm.unhealthy"), color: "text-red-600 bg-red-50" };
+    return { label: t("pm.hazardous"), color: "text-rose-700 bg-rose-50" };
+  }, [pmData?.pm25, t]);
 
   const humidity = currentWeather?.data.rh ?? null;
   const temp = currentWeather?.data.tc ?? null;
@@ -128,11 +138,11 @@ export default function Home() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full bg-rose-100 text-rose-700 px-4 py-2 text-sm font-medium shadow-sm">
                 <Gauge className="h-4 w-4" />
-                School Transport • Air Quality
+                {t("badge")}
               </div>
               <div className="space-y-2">
                 <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
-                  รายงานคุณภาพอากาศวันนี้
+                  {t("title")}
                 </h1>
                 <p className="text-lg text-gray-600 flex items-center gap-2">
                   <ClockIcon className="h-4 w-4 text-rose-600" />
@@ -140,25 +150,24 @@ export default function Home() {
                 </p>
               </div>
               <p className="text-gray-600 max-w-2xl">
-                ติดตามสภาพอากาศ PM2.5 และความชื้น
-                ครบจบในหน้าเดียว พร้อมปุ่มเข้าสู่ระบบคนขับและหลังบ้าน.
+                {t("intro")}
               </p>
               <div className="flex gap-3 flex-wrap">
                 <Link href="/admin" className="flex-1 min-w-[160px]">
                   <button className="w-full rounded-xl bg-[#8B0000] text-white py-3.5 px-4 font-semibold shadow-lg shadow-rose-200/60 hover:bg-[#750000] transition-colors">
-                    เข้าระบบหลังบ้าน
+                    {t("enterAdmin")}
                   </button>
                 </Link>
                 <Link href="/driver" className="flex-1 min-w-[160px]">
                   <button className="w-full rounded-xl border border-gray-300 bg-white text-gray-900 py-3.5 px-4 font-semibold hover:border-gray-400 transition-colors">
-                    สำหรับคนขับรถ
+                    {t("forDrivers")}
                   </button>
                 </Link>
               </div>
               {error && (
                 <div className="inline-flex items-center gap-2 rounded-lg bg-amber-50 text-amber-800 px-3 py-2 text-sm">
                   <AlertTriangle className="h-4 w-4" />
-                  {error}
+                  {errorMessage}
                 </div>
               )}
             </div>
@@ -168,7 +177,7 @@ export default function Home() {
               <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white p-6">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">กรุงเทพมหานคร</p>
+                    <p className="text-sm text-gray-500">{t("city")}</p>
                     <div className="flex items-baseline gap-2">
                       <p className="text-6xl font-semibold">
                         {temp !== null ? Math.round(temp) : "--"}°
@@ -190,12 +199,12 @@ export default function Home() {
                 <div className="mt-6 grid grid-cols-2 gap-3">
                   <StatChip
                     icon={<Droplet className="h-4 w-4" />}
-                    label="ความชื้น"
+                    label={t("humidity")}
                     value={humidity !== null ? `${Math.round(humidity)}%` : "--"}
                   />
                   <StatChip
                     icon={<Navigation className="h-4 w-4" />}
-                    label="AQI"
+                    label={t("aqi")}
                     value={pmData?.aqi ?? "--"}
                   />
                 </div>
@@ -211,7 +220,7 @@ export default function Home() {
                     <Droplet className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">ค่า PM2.5 ปัจจุบัน</p>
+                    <p className="text-sm text-gray-600">{t("currentPm25")}</p>
                     <p className="text-2xl font-semibold">
                       {pmData?.pm25 ?? "--"} µg/m³
                     </p>
@@ -227,18 +236,18 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <SmallCard
-                  title="อุณหภูมิ"
+                  title={t("temperature")}
                   value={temp !== null ? `${Math.round(temp)}°C` : "--"}
                   icon={<Sun className="h-4 w-4 text-amber-500" />}
                 />
                 <SmallCard
-                  title="ความชื้น"
+                  title={t("humidity")}
                   value={humidity !== null ? `${Math.round(humidity)}%` : "--"}
                   icon={<Droplet className="h-4 w-4 text-blue-500" />}
                 />
               </div>
               {loading && (
-                <p className="text-sm text-gray-500 mt-4">กำลังโหลดข้อมูล...</p>
+                <p className="text-sm text-gray-500 mt-4">{t("loading")}</p>
               )}
             </div>
 
@@ -256,24 +265,24 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-300">คำแนะนำวันนี้</p>
-                    <p className="text-xl font-semibold">ป้องกันฝุ่นละเอียด</p>
+                    <p className="text-sm text-gray-300">{t("advice")}</p>
+                    <p className="text-xl font-semibold">{t("adviceTitle")}</p>
                   </div>
                 </div>
                 <div className="space-y-3 text-gray-200 text-sm leading-relaxed">
-                  <p>• สวมหน้ากากเมื่ออยู่กลางแจ้ง โดยเฉพาะช่วงเช้า</p>
-                  <p>• หลีกเลี่ยงการออกกำลังกายหนัก หากค่า PM2.5 เกิน 35 µg/m³</p>
-                  <p>• ตรวจสอบค่า AQI ก่อนออกเดินทางและเลือกเส้นทางอากาศดีกว่า</p>
+                  <p>• {t("advice1")}</p>
+                  <p>• {t("advice2")}</p>
+                  <p>• {t("advice3")}</p>
                 </div>
                 <div className="flex gap-3 flex-wrap">
                   <Link href="/status" className="flex-1 min-w-[150px]">
                     <button className="w-full rounded-xl bg-white text-gray-900 py-3 font-semibold hover:bg-gray-100 transition-colors">
-                      ดูแผนที่รถรับส่งสด
+                      {t("liveMapBtn")}
                     </button>
                   </Link>
                   <Link href="/overview" className="flex-1 min-w-[150px]">
                     <button className="w-full rounded-xl border border-white/30 text-white py-3 font-semibold hover:bg-white/10 transition-colors">
-                      สถิติการใช้งาน
+                      {t("statsBtn")}
                     </button>
                   </Link>
                 </div>
@@ -358,6 +367,7 @@ function QuickLink({
 }
 
 function DesktopNav() {
+  const t = useTranslations("nav");
   return (
     <header className="mb-10 hidden md:block">
       <div className="flex items-center justify-between">
@@ -373,32 +383,38 @@ function DesktopNav() {
             />
           </div>
           <div>
-            <p className="text-base font-semibold text-gray-900">School Transport +</p>
-            <p className="text-xs text-gray-500">รถรับส่งครบจบในที่เดียว</p>
+            <p className="text-base font-semibold text-gray-900">{t("brand")}</p>
+            <p className="text-xs text-gray-500">{t("tagline")}</p>
           </div>
         </Link>
         <div className="flex items-center whitespace-nowrap gap-2">
           <QuickLink
+            href="/about"
+            icon={<Info className="h-4 w-4" />}
+            label={t("about")}
+          />
+          <QuickLink
             href="/admin"
             icon={<LayoutDashboard className="h-4 w-4" />}
-            label="หลังบ้าน"
+            label={t("admin")}
             accent
           />
           <QuickLink
             href="/driver"
             icon={<LifeBuoy className="h-4 w-4" />}
-            label="คนขับรถ"
+            label={t("driver")}
           />
           <QuickLink
             href="/status"
             icon={<MapIcon className="h-4 w-4" />}
-            label="Live Map"
+            label={t("liveMap")}
           />
           <QuickLink
             href="/admin/rfid"
             icon={<Radio className="h-4 w-4" />}
-            label="RFID Log"
+            label={t("rfidLog")}
           />
+          <LanguageSwitcher className="ml-1" />
         </div>
       </div>
     </header>

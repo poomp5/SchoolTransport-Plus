@@ -1,5 +1,5 @@
 import Map from "@/components/map";
-import StatusCard from '../../components/status-card';
+import StatusCard from '@/components/status-card';
 
 export default function Page () {
     return (

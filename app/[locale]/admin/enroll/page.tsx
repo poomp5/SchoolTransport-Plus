@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useMemo } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import * as faceapi from "face-api.js";
 import AdminSidebar from "@/components/admin-sidebar";
 import { Plus, Save, Trash2, ArrowUp, ArrowDown, Camera } from "lucide-react";

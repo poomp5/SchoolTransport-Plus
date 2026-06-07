@@ -44,7 +44,7 @@ const Map = () => {
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="Thailand Innovation Awards 2025 | &copy openstreetmap.org"
+            attribution="Genius Olympiad 2026 | &copy openstreetmap.org"
           />
           {userLocation && (
             <Marker position={userLocation} icon={userIcon}>
