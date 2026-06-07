@@ -3,10 +3,37 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 
 type LatLng = [number, number];
 type Bus = { id: string; pos: LatLng };
+
+// St. John Fisher University — Rochester, NY (easter egg target)
+const FISHER: LatLng = [43.1160653, -77.5119079];
+
+// Flies the map to a target whenever `trigger` changes.
+const FlyTo = dynamic(
+  () =>
+    import("react-leaflet").then((mod) => {
+      const { useMap } = mod;
+      function FlyToInner({
+        target,
+        trigger,
+      }: {
+        target: LatLng;
+        trigger: number;
+      }) {
+        const map = useMap();
+        useEffect(() => {
+          if (trigger > 0) map.flyTo(target, 17, { duration: 1.5 });
+        }, [trigger, target, map]);
+        return null;
+      }
+      return FlyToInner;
+    }),
+  { ssr: false }
+);
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -30,6 +57,8 @@ const MapAdmin = () => {
   const [userLocation, setUserLocation] = useState<LatLng | null>(null);
   const [leaflet, setLeaflet] = useState<typeof import("leaflet") | null>(null);
   const [buses, setBuses] = useState<Bus[]>([]);
+  const [flyTrigger, setFlyTrigger] = useState(0);
+  const [showFisher, setShowFisher] = useState(false);
 
   // โหลด leaflet และขอตำแหน่งผู้ใช้
   useEffect(() => {
@@ -132,8 +161,30 @@ const makeBusIcon = (label: string) =>
 
   const mapCenter = userLocation ?? DEFAULT_CENTER;
 
+  const fisherIcon = leaflet.divIcon({
+    className: "fisher-icon",
+    html: `<div style="font-size:28px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))">📍</div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+    popupAnchor: [0, -26],
+  });
+
   return (
     <div className="relative w-full h-full">
+      {/* Easter egg: jump to St. John Fisher University */}
+      <button
+        type="button"
+        onClick={() => {
+          setShowFisher(true);
+          setFlyTrigger((n) => n + 1);
+        }}
+        title="Find us — St. John Fisher University"
+        className="absolute right-3 top-3 z-[1000] flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-2 text-sm font-semibold text-[#8B0000] shadow-lg ring-1 ring-black/5 transition hover:bg-white"
+      >
+        <MapPin className="h-4 w-4" />
+        <span className="hidden sm:inline">St. John Fisher</span>
+      </button>
+
       <MapContainer
         center={mapCenter}
         zoom={15}
@@ -141,10 +192,21 @@ const makeBusIcon = (label: string) =>
         scrollWheelZoom
         className="rounded-2xl"
       >
+        <FlyTo target={FISHER} trigger={flyTrigger} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="Genius Olympiad 2026 | &copy openstreetmap.org"
         />
+
+        {showFisher && (
+          <Marker position={FISHER} icon={fisherIcon}>
+            <Popup>
+              <span className="kanit font-semibold">
+                🎓 St. John Fisher University
+              </span>
+            </Popup>
+          </Marker>
+        )}
 
         {/* ตำแหน่งผู้ใช้ */}
         {userLocation && (

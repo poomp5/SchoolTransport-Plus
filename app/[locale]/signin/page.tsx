@@ -4,8 +4,10 @@ import { FormEvent, useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { Link } from "@/i18n/navigation";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 function SignInForm() {
+  const t = useTranslations("auth");
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -29,7 +31,7 @@ function SignInForm() {
     setLoading(false);
 
     if (res?.error) {
-      setError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+      setError(t("invalidCredentials"));
       return;
     }
 
@@ -39,13 +41,13 @@ function SignInForm() {
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8 space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-semibold text-gray-900">เข้าสู่ระบบ</h1>
-        <p className="text-sm text-gray-500">กรอกอีเมลและรหัสผ่านที่สมัครไว้</p>
+        <h1 className="text-2xl font-semibold text-gray-900">{t("signInTitle")}</h1>
+        <p className="text-sm text-gray-500">{t("signInSubtitle")}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">อีเมล</label>
+          <label className="block text-sm font-medium text-gray-700">{t("email")}</label>
           <input
             type="email"
             className="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
@@ -55,7 +57,7 @@ function SignInForm() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">รหัสผ่าน</label>
+          <label className="block text-sm font-medium text-gray-700">{t("password")}</label>
           <input
             type="password"
             className="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-rose-500"
@@ -77,14 +79,14 @@ function SignInForm() {
           disabled={loading}
           className="w-full rounded-xl bg-[#8B0000] text-white py-3 font-semibold shadow-lg shadow-rose-200/60 hover:bg-[#750000] transition-colors disabled:opacity-60"
         >
-          {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
+          {loading ? t("signingIn") : t("signIn")}
         </button>
       </form>
 
       <p className="text-center text-sm text-gray-600">
-        ยังไม่มีบัญชี?{" "}
+        {t("noAccount")}{" "}
         <Link href="/signup" className="text-rose-600 font-semibold hover:underline">
-          สมัครใช้งาน
+          {t("signUpLink")}
         </Link>
       </p>
     </div>

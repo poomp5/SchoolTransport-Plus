@@ -13,6 +13,7 @@ import {
   Cpu,
   Layers,
   CheckCircle2,
+  ExternalLink,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import LanguageSwitcher from "@/components/language-switcher";
@@ -93,7 +94,8 @@ function AboutContent() {
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#8B0000] px-5 py-3 font-semibold text-white shadow-lg shadow-rose-200/60 transition-colors hover:bg-[#750000]"
           >
-            {t("prototype")} ↗
+            {t("prototype")}
+            <ExternalLink className="h-4 w-4" />
           </a>
         </header>
 

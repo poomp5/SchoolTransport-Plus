@@ -2,7 +2,9 @@
 import { Send } from 'lucide-react';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 const ContactPage: React.FC = () => {
+    const t = useTranslations('contact');
     const [messages, setMessages] = useState<string[]>([]);
     const [input, setInput] = useState<string>('');
 
@@ -15,7 +17,7 @@ const ContactPage: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center p-4">
-            <h1 className="text-3xl font-extrabold mb-6 mt-4 text-center text-gray-800">ติดต่อแอดมิน | LIVE CHAT</h1>
+            <h1 className="text-3xl font-extrabold mb-6 mt-4 text-center text-gray-800">{t('title')}</h1>
             <div className="bg-white border border-gray-300 p-4 w-full max-w-md md:max-w-screen-xl rounded-2xl">
                 <div className="h-[50vh] overflow-y-scroll border-b border-gray-300 mb-4">
                     {messages.map((message, index) => (
@@ -26,7 +28,7 @@ const ContactPage: React.FC = () => {
                                     <span className="text-sm font-normal text-gray-500"></span>
                                 </div>
                                 <p className="text-sm font-normal py-2.5 text-gray-900">{message}</p>
-                                <span className="text-sm font-normal text-gray-500">ส่งแล้ว</span>
+                                <span className="text-sm font-normal text-gray-500">{t('sent')}</span>
                             </div>
                             <Image className="w-8 h-8 rounded-full" src={'/bluecat.png'} width={30} height={30} alt="Test Img"/>
                         </div>
@@ -37,7 +39,7 @@ const ContactPage: React.FC = () => {
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder="ส่งข้อความของคุณ . . . "
+                        placeholder={t('inputPlaceholder')}
                         className="flex-1 p-2 px-4 border border-gray-300 rounded-l-full focus:border-gray-400 focus:outline-none"
                     />
                     <button

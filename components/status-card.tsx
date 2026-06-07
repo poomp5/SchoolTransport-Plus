@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Image from 'next/image';
 import { MapPin, Navigation, Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const StatusCard = () => {
+    const t = useTranslations("status");
     const [isWaiting, setIsWaiting] = useState(false);
     return (
         <div className="max-w-2xl md:max-w-full mx-auto min-h-screen flex flex-col">
@@ -23,8 +25,8 @@ const StatusCard = () => {
                             />
                         </div>
                         <div> 
-                            <h1 className="text-gray-700 text-lg font-semibold">ปุญญพัฒน์ กูลมนุญ</h1>
-                            <p className="text-gray-600 text-sm">โรงเรียนอัสสัมชัญธนบุรี</p>
+                            <h1 className="text-gray-700 text-lg font-semibold">{t("driverName")}</h1>
+                            <p className="text-gray-600 text-sm">{t("school")}</p>
                         </div>
                     </div>
                 </div>
@@ -33,55 +35,55 @@ const StatusCard = () => {
                         <div className="flex-1 relative">
                             <div className="h-1 bg-green-500"></div>
                             <div className="absolute -top-2 left-0 w-4 h-4 rounded-full bg-green-500"></div>
-                            <p className="absolute -top-8 left-0 text-xs md:text-sm text-gray-600 whitespace-nowrap">ออกเดินทาง</p>
+                            <p className="absolute -top-8 left-0 text-xs md:text-sm text-gray-600 whitespace-nowrap">{t("stepDepart")}</p>
                         </div>
                         <div className="flex-1 relative">
                             <div className="h-1 bg-green-500"></div>
                             <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-green-500"></div>
-                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs md:text-sm text-gray-600 whitespace-nowrap">รับนักเรียนคนอื่น</p>
+                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs md:text-sm text-gray-600 whitespace-nowrap">{t("stepPickOthers")}</p>
                         </div>
                         <div className="flex-1 relative">
                             <div className="h-1 bg-green-500"></div>
                             <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-green-500"></div>
-                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs md:text-sm text-gray-600 whitespace-nowrap">อยู่ในเส้นทาง</p>
+                            <p className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs md:text-sm text-gray-600 whitespace-nowrap">{t("stepEnRoute")}</p>
                         </div>
                         <div className="flex-1 relative">
                             <div className="h-1 bg-gray-300"></div>
                             <div className="absolute -top-2 right-0 w-4 h-4 rounded-full bg-gray-300"></div>
-                            <p className="absolute -top-8 right-0 text-xs md:text-sm text-gray-600 whitespace-nowrap">ถึงจุดหมาย</p>
+                            <p className="absolute -top-8 right-0 text-xs md:text-sm text-gray-600 whitespace-nowrap">{t("stepArrived")}</p>
                         </div>
                     </div>
                     <div className="bg-gray-50 rounded-xl p-6 space-y-4">
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <Clock className="w-5 h-5 text-gray-600" />
-                                <span className="text-gray-600">รถกำลังจะมารับในอีก</span>
+                                <span className="text-gray-600">{t("pickupIn")}</span>
                             </div>
-                            <div className="text-xl font-semibold text-gray-600">5 นาที</div>
+                            <div className="text-xl font-semibold text-gray-600">{t("minutes", { count: 5 })}</div>
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <Navigation className="w-5 h-5 text-gray-600" />
-                                <span className="text-gray-600">ระยะทาง</span>
+                                <span className="text-gray-600">{t("distance")}</span>
                             </div>
                             <div className="text-xl font-semibold text-gray-600">2.4 Km</div>
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <MapPin className="w-5 h-5 text-gray-600" />
-                                <span className="text-gray-600">เวลาเดินทาง</span>
+                                <span className="text-gray-600">{t("travelTime")}</span>
                             </div>
-                            <div className="text-xl font-semibold text-gray-600">20 นาที</div>
+                            <div className="text-xl font-semibold text-gray-600">{t("minutes", { count: 20 })}</div>
                         </div>
                     </div>
                     <button
                         className={`w-full mt-6 py-4 rounded-xl font-medium ${isWaiting ? 'bg-green-700 text-white hover:bg-green-800' : 'bg-red-700 text-white'}`}
                         onClick={() => setIsWaiting(!isWaiting)}
                     >
-                        {isWaiting ? 'กำลังยืนรอรถ' : 'ยกเลิก'}
+                        {isWaiting ? t("waiting") : t("cancel")}
                     </button>
                     <p className="mt-2 text-center text-gray-500 text-sm text-nowrap">
-                        สถานะของคุณขณะนี้ : {isWaiting ? 'ไม่พร้อมขึ้นรถ' : 'กำลังยืนรอรถ'}
+                        {t("yourStatus")} {isWaiting ? t("notReady") : t("waiting")}
                     </p>
                 </div>
             </div>

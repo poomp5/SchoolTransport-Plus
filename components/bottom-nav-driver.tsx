@@ -2,14 +2,16 @@
 
 import { Link, usePathname } from '@/i18n/navigation'
 import { LayoutDashboard, Settings, Users } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 export default function BottomNavDriver() {
     const pathname = usePathname()
+    const t = useTranslations('driver')
 
     const navItems = [
-        { name: 'ภาพรวม', href: '/driver', icon: LayoutDashboard },
-        { name: 'นักเรียน', href: '/driver/student', icon: Users },
-        { name: 'การตั้งค่า', href: '/driver/settings', icon: Settings },
+        { name: t('overview'), href: '/driver', icon: LayoutDashboard },
+        { name: t('students'), href: '/driver/student', icon: Users },
+        { name: t('settings'), href: '/driver/settings', icon: Settings },
     ]
     return (
         <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 md:hidden">

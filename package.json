@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint"
   },
@@ -28,7 +29,7 @@
     "next": "15.1.11",
     "next-auth": "^4.24.11",
     "next-intl": "^4.13.0",
-    "prisma": "^7.3.0",
+    "prisma": "^7.8.0",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^19.0.0",

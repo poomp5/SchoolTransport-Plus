@@ -15,8 +15,11 @@ export async function GET(req: Request) {
   }
 
   try {
+    // St. John Fisher University — Rochester, NY
+    const lat = searchParams.get("lat") || "43.1160653";
+    const lon = searchParams.get("lon") || "-77.5119079";
     const response = await fetch(
-      `https://api.waqi.info/feed/geo:13.7563;100.5018/?token=${token}`,
+      `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${token}`,
       { cache: "no-store" },
     );
 
@@ -30,9 +33,13 @@ export async function GET(req: Request) {
 
     const data = await response.json();
     if (data && data.data && data.data.iaqi && data.data.iaqi.pm25) {
+      const iaqi = data.data.iaqi;
       return NextResponse.json({
         aqi: data.data.aqi,
-        pm25: data.data.iaqi.pm25.v,
+        pm25: iaqi.pm25.v,
+        temp: iaqi.t?.v ?? null,
+        humidity: iaqi.h?.v ?? null,
+        city: data.data.city?.name ?? null,
       });
     }
 

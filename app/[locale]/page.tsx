@@ -22,49 +22,23 @@ import Image from "next/image";
 import LanguageSwitcher from "@/components/language-switcher";
 import type { JSX } from "react";
 
-interface WeatherData {
-  WeatherForecasts?: Array<{
-    forecasts: Array<{
-      time: string;
-      data: {
-        tc: number;
-        rh: number;
-        cond: number;
-      };
-    }>;
-    location: {
-      name: string;
-      lat: number;
-      lon: number;
-    };
-  }>;
-}
-
 interface PMData {
   aqi: number;
   pm25: number;
+  temp?: number | null;
+  humidity?: number | null;
+  city?: string | null;
 }
 
 export default function Home() {
   const t = useTranslations("home");
   const locale = useLocale();
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [pmData, setPmData] = useState<PMData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      const response = await fetch(
-        "/api/weather?lat=13.732924&lon=100.371428",
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setWeatherData(data);
-    };
-
+    // St. John Fisher University — Rochester, NY (AQI + temp/humidity via WAQI)
     const fetchPmData = async () => {
       const response = await fetch("/api/pmdata");
       if (!response.ok) {
@@ -74,7 +48,7 @@ export default function Home() {
       setPmData(data);
     };
 
-    Promise.all([fetchWeatherData(), fetchPmData()])
+    fetchPmData()
       .catch((err) => {
         console.error("Fetch error:", err);
         setError(err instanceof Error ? err.message : "load-error");
@@ -84,12 +58,6 @@ export default function Home() {
 
   const errorMessage = error === "load-error" ? t("loadError") : error;
 
-  const getCurrentWeather = () => {
-    if (!weatherData?.WeatherForecasts?.[0]?.forecasts) return null;
-    return weatherData.WeatherForecasts[0].forecasts[0];
-  };
-
-  const currentWeather = getCurrentWeather();
   const currentDate = new Date().toLocaleDateString(
     locale === "th" ? "th-TH" : "en-US",
     {
@@ -110,22 +78,18 @@ export default function Home() {
     return { label: t("pm.hazardous"), color: "text-rose-700 bg-rose-50" };
   }, [pmData?.pm25, t]);
 
-  const humidity = currentWeather?.data.rh ?? null;
-  const temp = currentWeather?.data.tc ?? null;
+  const humidity = pmData?.humidity ?? null;
+  const temp = pmData?.temp ?? null;
 
-  const getWeatherIcon = (condition: number) => {
-    switch (condition) {
-      case 1:
-        return <Sun className="w-12 h-12 text-yellow-500" />;
-      case 2:
-        return <Cloud className="w-12 h-12 text-yellow-400" />;
-      case 3:
-        return <Cloud className="w-12 h-12 text-gray-400" />;
-      case 4:
-        return <CloudRain className="w-12 h-12 text-blue-400" />;
-      default:
-        return <Cloud className="w-12 h-12 text-gray-400" />;
-    }
+  // Pick an icon from temperature/humidity (WAQI has no condition code).
+  const getWeatherIcon = () => {
+    if (humidity !== null && humidity >= 80)
+      return <CloudRain className="w-12 h-12 text-blue-400" />;
+    if (humidity !== null && humidity >= 60)
+      return <Cloud className="w-12 h-12 text-gray-400" />;
+    if (temp !== null && temp >= 20)
+      return <Sun className="w-12 h-12 text-yellow-500" />;
+    return <Cloud className="w-12 h-12 text-gray-400" />;
   };
 
   return (
@@ -188,8 +152,8 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="rounded-2xl bg-gray-50 p-3">
-                    {currentWeather ? (
-                      getWeatherIcon(currentWeather.data.cond)
+                    {pmData ? (
+                      getWeatherIcon()
                     ) : (
                       <Cloud className="w-12 h-12 text-gray-300" />
                     )}

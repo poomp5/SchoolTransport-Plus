@@ -2,6 +2,7 @@
 import { Bus, BadgeCheck } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface Student {
   id: number;
@@ -53,6 +54,7 @@ function SafeImage({
 }
 
 export default function Home() {
+  const t = useTranslations("driver");
   const [waitingStudents, setWaitingStudents] = useState<Student[]>([
     {
       id: 1,
@@ -164,7 +166,7 @@ export default function Home() {
           <div>
             <div className="font-semibold text-gray-900">{student.name}</div>
             <div className="text-xs text-gray-500 table-cell md:hidden">
-              {student.className} · เลขประจำตัว {student.studentId}
+              {student.className} · {t("studentId")} {student.studentId}
             </div>
           </div>
         </div>
@@ -183,7 +185,7 @@ export default function Home() {
               : "bg-green-800"
           } text-white px-3 py-1.5 rounded-lg`}
         >
-          {sourceList === "waiting" ? "ยังไม่ได้รับ" : "รับขึ้นรถแล้ว"}
+          {sourceList === "waiting" ? t("notPicked") : t("pickedUp")}
         </button>
       </div>
     </div>
@@ -196,9 +198,9 @@ export default function Home() {
           <div className="flex items-center justify-between rounded-lg bg-yellow-800 p-4 text-white">
             <div>
               <div className="text-2xl font-bold sm:text-3xl">
-                {waitingStudents.length} คน
+                {t("waitingCount", { count: waitingStudents.length })}
               </div>
-              <div className="text-sm">นักเรียนที่ยังไม่ได้รับ</div>
+              <div className="text-sm">{t("waitingTitle")}</div>
             </div>
             <div className="text-3xl sm:text-4xl bg-yellow-900 p-3 rounded-full">
               <Bus />
@@ -211,7 +213,7 @@ export default function Home() {
             onDrop={(e) => handleDrop(e, "waiting")}
             onDragOver={handleDragOver}
           >
-            <h3 className="text-lg font-semibold mb-4">นักเรียนที่กำลังรอ</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("waitingList")}</h3>
             <div className="divide-y">
               {waitingStudents.map((student) => (
                 <StudentRow
@@ -228,9 +230,9 @@ export default function Home() {
           <div className="flex items-center justify-between rounded-lg bg-green-800 p-4 text-white">
             <div>
               <div className="text-2xl font-bold sm:text-3xl">
-                {onBusStudents.length} คน
+                {t("onBusCount", { count: onBusStudents.length })}
               </div>
-              <div className="text-sm">นักเรียนบนรถ</div>
+              <div className="text-sm">{t("onBusTitle")}</div>
             </div>
             <div className="text-3xl sm:text-4xl bg-green-900 p-3 rounded-full">
               <BadgeCheck />
@@ -243,7 +245,7 @@ export default function Home() {
             onDrop={(e) => handleDrop(e, "onBus")}
             onDragOver={handleDragOver}
           >
-            <h3 className="text-lg font-semibold mb-4">นักเรียนที่อยู่บนรถ</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("onBusList")}</h3>
             <div className="divide-y">
               {onBusStudents.map((student) => (
                 <StudentRow

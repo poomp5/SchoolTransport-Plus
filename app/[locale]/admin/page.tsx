@@ -6,7 +6,9 @@ import Image from "next/image";
 import MapAdmin from "@/components/map-admin";
 import { AlertTable } from '@/components/alert-table';
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 export default function Home() {
+    const t = useTranslations("admin");
     return (
       <div className="flex min-h-screen mb-24">
         <AdminSidebar />
@@ -18,8 +20,8 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="flex items-center justify-between rounded-lg bg-yellow-800 p-4 text-white">
               <div>
-                <div className="text-2xl font-bold sm:text-3xl">26 คัน</div>
-                <div className="text-sm">กำลังเดินทาง</div>
+                <div className="text-2xl font-bold sm:text-3xl">26 {t("vehiclesUnit")}</div>
+                <div className="text-sm">{t("inTransit")}</div>
               </div>
               <div className="text-3xl sm:text-4xl bg-yellow-900 p-3 rounded-full">
                 <Bus />
@@ -27,8 +29,8 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-between rounded-lg bg-green-800 p-4 text-white">
               <div>
-                <div className="text-2xl font-bold sm:text-3xl">8 คัน</div>
-                <div className="text-sm">ถึงโรงเรียนแล้ว</div>
+                <div className="text-2xl font-bold sm:text-3xl">8 {t("vehiclesUnit")}</div>
+                <div className="text-sm">{t("arrived")}</div>
               </div>
               <div className="text-3xl sm:text-4xl bg-green-900 p-3 rounded-full">
                 <BadgeCheck />
@@ -36,8 +38,8 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-between rounded-lg bg-purple-800 p-4 text-white">
               <div>
-                <div className="text-2xl font-bold sm:text-3xl">1 คัน</div>
-                <div className="text-sm">กำลังรับนักเรียน</div>
+                <div className="text-2xl font-bold sm:text-3xl">1 {t("vehiclesUnit")}</div>
+                <div className="text-sm">{t("pickingUp")}</div>
               </div>
               <div className="text-3xl sm:text-4xl bg-purple-900 p-3 rounded-full">
                 <Car />
@@ -51,7 +53,7 @@ export default function Home() {
                   className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5"
                   type="button"
                 >
-                  <span>ดำเนินการ</span>
+                  <span>{t("actions")}</span>
                   <svg
                     className="w-2.5 h-2.5 ms-2.5"
                     viewBox="0 0 10 6"
@@ -72,7 +74,7 @@ export default function Home() {
                   <input
                     type="text"
                     className="pl-10 py-2 w-full md:w-80 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="ค้นหาพนักงานขับรถ"
+                    placeholder={t("searchDriver")}
                   />
                 </div>
               </div>
@@ -81,25 +83,25 @@ export default function Home() {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                       <th scope="col" className="px-6 py-3">
-                        ชื่อพนักงานขับ
+                        {t("driverName")}
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3 hidden md:table-cell"
                       >
-                        หมายเลขรถ
+                        {t("busNumber")}
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3 hidden md:table-cell"
                       >
-                        ทะเบียน
+                        {t("plate")}
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        สถานะ
+                        {t("status")}
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        เพิ่มเติม
+                        {t("more")}
                       </th>
                     </tr>
                   </thead>
@@ -122,7 +124,7 @@ export default function Home() {
                               <div>ACT01 • กข 999</div>
                             </div>
                             <div className="text-xs text-gray-500">
-                              เข้างานเวลา 07:00 น.
+                              {t("onDuty", { time: "07:00" })}
                             </div>
                           </div>
                         </div>
@@ -140,7 +142,7 @@ export default function Home() {
                       <td className="px-6 py-4">
                         <div className="flex items-center whitespace-nowrap">
                           <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2 text-sm md:text-base" />
-                          กำลังเดินทาง
+                          {t("statusInTransit")}
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -177,7 +179,7 @@ export default function Home() {
                               <div>ACT02 • ฮว 123</div>
                             </div>
                             <div className="text-xs text-gray-500">
-                              เข้างานเวลา 07:00 น.
+                              {t("onDuty", { time: "07:00" })}
                             </div>
                           </div>
                         </div>
@@ -195,7 +197,7 @@ export default function Home() {
                       <td className="px-6 py-4">
                         <div className="flex items-center whitespace-nowrap">
                           <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2 text-sm md:text-base" />
-                          กำลังเดินทาง
+                          {t("statusInTransit")}
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -232,7 +234,7 @@ export default function Home() {
                               <div>ACT03 • ฮว 456</div>
                             </div>
                             <div className="text-xs text-gray-500">
-                              เข้างานเวลา 07:00 น.
+                              {t("onDuty", { time: "07:00" })}
                             </div>
                           </div>
                         </div>
@@ -250,7 +252,7 @@ export default function Home() {
                       <td className="px-6 py-4">
                         <div className="flex items-center whitespace-nowrap">
                           <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2 text-sm md:text-base" />
-                          กำลังเดินทาง
+                          {t("statusInTransit")}
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -287,7 +289,7 @@ export default function Home() {
                               <div>ACT04 • กอ 987</div>
                             </div>
                             <div className="text-xs text-gray-500">
-                              เข้างานเวลา 07:00 น.
+                              {t("onDuty", { time: "07:00" })}
                             </div>
                           </div>
                         </div>
@@ -305,7 +307,7 @@ export default function Home() {
                       <td className="px-6 py-4">
                         <div className="flex items-center whitespace-nowrap">
                           <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2 text-sm md:text-base" />
-                          กำลังเดินทาง
+                          {t("statusInTransit")}
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -329,7 +331,7 @@ export default function Home() {
               </div>
             </div>
             <div className="rounded-lg bg-[#333] p-4 text-white col-span-12 md:col-span-4">
-              <div className="mb-2 text-lg font-bold">แจ้งเตือน</div>
+              <div className="mb-2 text-lg font-bold">{t("alerts")}</div>
               <div className="space-y-2">
                 <AlertTable />
               </div>

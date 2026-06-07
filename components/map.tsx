@@ -12,7 +12,7 @@ const Popup = dynamic(() => import("react-leaflet").then(mod => mod.Popup), { ss
 
 const Map = () => {
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-    const [busLocation] = useState<[number, number] | null>([13.7330125, 100.3702514]);
+    const [busLocation] = useState<[number, number] | null>([43.1160653, -77.5119079]);
     const [leaflet, setLeaflet] = useState<typeof import("leaflet") | null>(null);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const Map = () => {
     return (
       <div className="relative w-full h-full">
         <MapContainer
-          center={[13.7330125, 100.3702514]}
+          center={[43.1160653, -77.5119079]}
           zoom={15}
           style={{ height: "100%", width: "100%" }}
           scrollWheelZoom={true}

@@ -4,14 +4,16 @@ import { useState } from 'react';
 import { Camera } from 'lucide-react';
 import Swal from "sweetalert2";
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
+    const t = useTranslations("driverPages");
         const handleSave = () => {
             Swal.fire({
-                title: "บันทึกสำเร็จ!",
-                text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
+                title: t("savedTitle"),
+                text: t("savedText"),
                 icon: "success",
-                confirmButtonText: "ตกลง"
+                confirmButtonText: t("ok")
             });
         };
     const [name, setName] = useState("นายปุญญพัฒน์ กูลมนุญ");
@@ -33,7 +35,7 @@ export default function Home() {
                             <div className="flex items-center justify-between">
                                 <h3 className="font-medium">นายปุญญพัฒน์ กูลมนุญ</h3>
                                 <div className="flex items-center gap-2 bg-green-200 text-green-800 rounded-full px-4 text-nowrap">
-                                    กำลังให้บริการ
+                                    {t("serving")}
                                 </div>
                             </div>
                             <p className="text-sm text-muted-foreground">
@@ -43,7 +45,7 @@ export default function Home() {
                     </div>
             <div/>
             <div className=" mx-auto pb-16 px-4">
-            <h1 className="text-center mt-8 text-2xl font-semibold mb-8">การตั้งค่า</h1>
+            <h1 className="text-center mt-8 text-2xl font-semibold mb-8">{t("settingsTitle")}</h1>
             
             {/* Profile Section */}
             <div className="flex flex-col items-center mb-8">
@@ -71,7 +73,7 @@ export default function Home() {
                 {/* Name Setting */}
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        ชื่อ-นามสกุล
+                        {t("fullName")}
                     </label>
                     <input
                         type="text"
@@ -84,7 +86,7 @@ export default function Home() {
                 {/* Phone Number Setting */}
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        เบอร์โทรศัพท์
+                        {t("phone")}
                     </label>
                     <input
                         type="tel"
@@ -93,13 +95,13 @@ export default function Home() {
                         onChange={(e) => setPhone(e.target.value)}
                         pattern="[0-9]{10}"
                     />
-                    <p className="mt-1 text-sm text-gray-500">ตัวอย่าง: 0812345678</p>
+                    <p className="mt-1 text-sm text-gray-500">{t("phoneExample")}</p>
                 </div>
 
                 {/* Citizenship ID Setting */}
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        เลขใบขับขี่
+                        {t("license")}
                     </label>
                     <input
                         type="text"
@@ -108,23 +110,23 @@ export default function Home() {
                         onChange={(e) => setCitizenId(e.target.value)}
                         pattern="[0-9]{8}" maxLength={8}
                     />
-                    <p className="mt-1 text-sm text-gray-500">ตัวอย่าง: 12345678</p>
+                    <p className="mt-1 text-sm text-gray-500">{t("licenseExample")}</p>
                 </div>
 
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        รหัสรถ
+                        {t("vehicleCode")}
                     </label>
                     <input
                         type="text"
                         className="bg-gray-100 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none "
-                        value={"TIA01"} readOnly
+                        value={"GO01"} readOnly
 
                     />
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        ทำเบียนรถ
+                        {t("vehiclePlate")}
                     </label>
                     <input
                         type="text"
@@ -135,7 +137,7 @@ export default function Home() {
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        ยี่ห้อรถ
+                        {t("vehicleBrand")}
                     </label>
                     <input
                         type="text"
@@ -146,7 +148,7 @@ export default function Home() {
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        รุ่นรถ
+                        {t("vehicleModel")}
                     </label>
                     <input
                         type="text"
@@ -157,7 +159,7 @@ export default function Home() {
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        สีรถ
+                        {t("vehicleColor")}
                     </label>
                     <input
                         type="text"
@@ -168,7 +170,7 @@ export default function Home() {
                 </div>
 
                 <button onClick={handleSave} className="w-full bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors">
-                บันทึกข้อมูล
+                {t("save")}
                 </button>
             </div>
             </div>

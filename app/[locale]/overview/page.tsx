@@ -1,6 +1,8 @@
 "use client";
+"use client";
 import { Bus, ArrowUp, ArrowDown, Clock } from "lucide-react";
 import { JSX } from "react";
+import { useTranslations } from "next-intl";
 import UserBusChart from "@/components/user-bus-chart";
 
 interface StatItem {
@@ -10,38 +12,39 @@ interface StatItem {
   bgColor: string;
 }
 
-const stats: StatItem[] = [
-  {
-    title: "จำนวนการขึ้นรถทั้งหมด",
-    value: "156",
-    icon: <Bus className="w-6 h-6 text-blue-600" />,
-    bgColor: "bg-blue-100",
-  },
-  {
-    title: "จำนวนการขึ้นรถขาไป",
-    value: "78",
-    icon: <ArrowUp className="w-6 h-6 text-green-600" />,
-    bgColor: "bg-green-100",
-  },
-  {
-    title: "จำนวนการขึ้นรถขากลับ",
-    value: "78",
-    icon: <ArrowDown className="w-6 h-6 text-purple-600" />,
-    bgColor: "bg-purple-100",
-  },
-  {
-    title: "เวลารอรถเฉลี่ย",
-    value: "15 นาที",
-    icon: <Clock className="w-6 h-6 text-yellow-600" />,
-    bgColor: "bg-yellow-100",
-  },
-];
-
 export default function Page() {
+  const t = useTranslations("status");
+  const o = useTranslations("overview");
+  const stats: StatItem[] = [
+    {
+      title: t("totalBoardings"),
+      value: "156",
+      icon: <Bus className="w-6 h-6 text-blue-600" />,
+      bgColor: "bg-blue-100",
+    },
+    {
+      title: t("boardingsOut"),
+      value: "78",
+      icon: <ArrowUp className="w-6 h-6 text-green-600" />,
+      bgColor: "bg-green-100",
+    },
+    {
+      title: t("boardingsBack"),
+      value: "78",
+      icon: <ArrowDown className="w-6 h-6 text-purple-600" />,
+      bgColor: "bg-purple-100",
+    },
+    {
+      title: t("avgWait"),
+      value: t("minutes", { count: 15 }),
+      icon: <Clock className="w-6 h-6 text-yellow-600" />,
+      bgColor: "bg-yellow-100",
+    },
+  ];
   return (
     <div className="p-4 md:p-8 bg-gradient-to-b from-gray-50 to-white min-h-screen mb-24">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">
-        สถิติการใช้งานรถรับส่ง
+        {o("statsTitle")}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
@@ -64,7 +67,7 @@ export default function Page() {
         ))}
       </div>
       <h2 className="text-2xl font-bold text-gray-800 mt-10 mb-4">
-        สถานะของรถ
+        {o("busStatus")}
       </h2>
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-green-50 border border-green-200 rounded-2xl shadow-sm">
@@ -74,11 +77,11 @@ export default function Page() {
             </span>
             <div>
               <p className="text-gray-800 font-medium">นายทดสอบ ระบบ</p>
-              <p className="text-sm text-gray-500">อยู่ในเส้นทาง</p>
+              <p className="text-sm text-gray-500">{o("enRoute")}</p>
             </div>
           </div>
           <span className="inline-block text-sm font-semibold text-green-800 bg-green-200 px-4 py-1 rounded-full">
-            ปกติ
+            {o("normal")}
           </span>
         </div>
       </div>
