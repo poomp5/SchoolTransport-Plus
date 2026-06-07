@@ -181,7 +181,21 @@
     "more": "เพิ่มเติม",
     "onDuty": "เข้างานเวลา {time}",
     "statusInTransit": "กำลังเดินทาง",
-    "alerts": "แจ้งเตือน"
+    "alerts": "แจ้งเตือน",
+    "navOverview": "ภาพรวม",
+    "navRfidLog": "RFID Log",
+    "navSettings": "ตั้งค่าระบบ",
+    "navUsers": "ตั้งค่าผู้ใช้งาน",
+    "navEmergency": "เหตุฉุกเฉิน",
+    "driver1": "นายปุญญพัฒน์ กูลมนุญ",
+    "driver2": "นายอิงควัชร์ โอสนานนท์",
+    "driver3": "นายศรัณยพงศ์ อัญญธนากร",
+    "driver4": "นายณัฐสิทธิ์ มานะปิยวงศ์",
+    "studentsCount": "นักเรียน {count} คน",
+    "alertTireBlowout": "รถยางแตกระหว่างทาง",
+    "alertOffRoute": "กำลังขับออกนอกเส้นทาง",
+    "inspect": "ตรวจสอบ",
+    "startCall": "เริ่มการโทร"
   },
   "driver": {
     "waitingCount": "{count} คน",

@@ -20,26 +20,31 @@ type SavedCard = {
   addedAt: string;
 };
 
+const TIME_ZONE = "America/New_York";
+
 const formatTime = (date: Date) =>
-  date.toLocaleTimeString("th-TH", {
+  date.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
+    hour12: false,
+    timeZone: TIME_ZONE,
   });
 
 const formatDate = (date: Date) =>
-  date.toLocaleDateString("th-TH", {
+  date.toLocaleDateString("en-US", {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: TIME_ZONE,
   });
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<"log" | "add">("log");
   const [latest, setLatest] = useState<Latest>({
     uid: "—",
-    label: "กำลังโหลด...",
+    label: "Loading...",
     id: "",
   });
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -98,21 +103,21 @@ export default function Page() {
 
   const handleAddCard = () => {
     if (!latest.uid || latest.uid === "—") {
-      setStatus("โปรดแตะบัตรบนเครื่องก่อน");
+      setStatus("Please tap a card on the reader first");
       return;
     }
 
     const trimmedId = studentId.trim();
     const trimmedLabel = customName.trim();
     if (!trimmedId && !trimmedLabel) {
-      setStatus("กรอกเลขประจำตัว 5 หลัก หรือชื่อ/หมายเหตุอย่างใดอย่างหนึ่ง");
+      setStatus("Enter a 5-digit student ID or a name/note");
       return;
     }
 
     const entry: SavedCard = {
       uid: latest.uid,
       id: trimmedId || "—",
-      label: trimmedLabel || latest.label || "ไม่ระบุชื่อ",
+      label: trimmedLabel || latest.label || "Unnamed",
       addedAt: new Date().toISOString(),
     };
 
@@ -120,7 +125,7 @@ export default function Page() {
     persistCards(next);
     setStudentId("");
     setCustomName("");
-    setStatus("บันทึกบัตรในเครื่องเรียบร้อย กำลังซิงก์ฐานข้อมูล...");
+    setStatus("Card saved locally. Syncing to the database...");
 
     // Try to persist to the database (best effort).
     fetch("/api/cards", {
@@ -134,18 +139,18 @@ export default function Page() {
     })
       .then(async (res) => {
         if (res.ok) {
-          setStatus("บันทึกบัตรเรียบร้อย (ซิงก์ฐานข้อมูลแล้ว)");
+          setStatus("Card saved (synced to the database)");
           return;
         }
         const data = await res.json().catch(() => ({}));
         setStatus(
           data?.error
-            ? `ซิงก์ฐานข้อมูลไม่สำเร็จ: ${data.error}`
-            : "ซิงก์ฐานข้อมูลไม่สำเร็จ",
+            ? `Database sync failed: ${data.error}`
+            : "Database sync failed",
         );
       })
       .catch(() => {
-        setStatus("ซิงก์ฐานข้อมูลไม่สำเร็จ: ตรวจสอบการเชื่อมต่อหรือ DATABASE_URL");
+        setStatus("Database sync failed: check the connection or DATABASE_URL");
       });
   };
 
@@ -167,13 +172,13 @@ export default function Page() {
               </p>
               <h1 className="text-4xl font-semibold">RFID</h1>
               <p className="text-sm text-gray-600">
-                อัปเดตทุก ~0.7 วินาที | แตะบัตรแล้วเพิ่มเลขประจำตัว 5 หลักได้ที่แท็บ “เพิ่มบัตร”
+                Updates every ~0.7s | Tap a card, then add the 5-digit student ID under the “Add Card” tab
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:items-end">
               <div className="rounded-2xl bg-white border border-gray-200 px-4 py-3 shadow-sm">
                 <div className="text-xs uppercase text-red-700 font-semibold">
-                  เวลาปัจจุบัน
+                  Current Time (EDT)
                 </div>
                 <div className="text-lg font-medium text-gray-800">
                   {formatDate(now)}
@@ -191,7 +196,7 @@ export default function Page() {
                       : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
-                  รายการแตะบัตร
+                  Tap Log
                 </button>
                 <button
                   onClick={() => setActiveTab("add")}
@@ -201,7 +206,7 @@ export default function Page() {
                       : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
-                  เพิ่มบัตร
+                  Add Card
                 </button>
               </div>
             </div>
@@ -217,7 +222,7 @@ export default function Page() {
                         LIVE
                       </span>
                       <div>
-                        <p className="text-sm text-gray-600">สถานะล่าสุด</p>
+                        <p className="text-sm text-gray-600">Latest status</p>
                         <p className="text-2xl font-semibold leading-tight text-gray-900">
                           {latest.label}
                           {latest.id ? ` (${latest.id})` : ""}
@@ -226,7 +231,7 @@ export default function Page() {
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Radio className="h-4 w-4 text-red-600" />
-                      อัปเดตอัตโนมัติทุก 700 มิลลิวินาที
+                      Auto-refreshes every 700 ms
                     </div>
                   </div>
                   <div className="rounded-2xl bg-gray-50 border border-gray-200 p-6 flex flex-col gap-3">
@@ -239,7 +244,7 @@ export default function Page() {
                       </span>
                     </div>
                     <p className="text-sm text-gray-600">
-                      ถ้าข้อมูลไม่ขยับ แสดงว่าไม่มีการแตะใหม่ในช่วงเวลาใกล้เคียง
+                      If the data isn’t moving, there have been no new taps recently.
                     </p>
                   </div>
                 </div>
@@ -249,14 +254,14 @@ export default function Page() {
                 <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
                   <div className="flex items-center gap-2 text-sm text-gray-700">
                     <Clock className="h-4 w-4 text-red-600" />
-                    <span>ประวัติย้อนหลัง (ล่าสุดอยู่บนสุด)</span>
+                    <span>History (newest on top)</span>
                   </div>
-                  <span className="text-xs text-gray-500">แสดงสูงสุด 60 รายการ</span>
+                  <span className="text-xs text-gray-500">Shows up to 60 entries</span>
                 </div>
                 <div className="max-h-[520px] overflow-y-auto px-4 py-2">
                   {log.length === 0 ? (
                     <div className="py-10 text-center text-gray-500">
-                      ยังไม่มีการแตะบัตรในรอบนี้
+                      No card taps yet in this session
                     </div>
                   ) : (
                     <ol className="relative border-l border-gray-200 ml-4">
@@ -297,9 +302,9 @@ export default function Page() {
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h2 className="text-2xl font-semibold text-gray-900">เพิ่มบัตรใหม่</h2>
+                      <h2 className="text-2xl font-semibold text-gray-900">Add a New Card</h2>
                       <p className="text-sm text-gray-600">
-                        แตะบัตรที่เครื่อง อ่าน UID อัตโนมัติ แล้วกรอกเลขประจำตัว 5 หลักหรือชื่อ
+                        Tap the card on the reader to read the UID automatically, then enter the 5-digit student ID or a name
                       </p>
                     </div>
                     <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#8B0000] text-white font-bold">
@@ -310,35 +315,35 @@ export default function Page() {
                   <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-600">UID ล่าสุดที่อ่านได้</p>
+                        <p className="text-sm text-gray-600">Latest UID read</p>
                         <p className="text-xl font-semibold text-gray-900 break-all">
-                          {latest.uid !== "—" ? latest.uid : "รอการแตะบัตร..."}
+                          {latest.uid !== "—" ? latest.uid : "Waiting for a card tap..."}
                         </p>
                         <p className="text-sm text-gray-600 mt-1">{latest.label || "—"}</p>
                       </div>
                       <div className="text-xs text-gray-500 text-right">
-                        ระบบดึงค่าจาก /api/ping อัตโนมัติ
+                        Pulled automatically from /api/ping
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-sm text-gray-700">เลขประจำตัวนักเรียน 5 หลัก</label>
+                      <label className="text-sm text-gray-700">5-digit student ID</label>
                       <input
                         value={studentId}
                         onChange={(e) => setStudentId(e.target.value)}
                         maxLength={10}
-                        placeholder="เช่น 27200"
+                        placeholder="e.g. 27200"
                         className="w-full rounded-lg border px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B0000]/30"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm text-gray-700">ชื่อ / หมายเหตุ (ถ้ามี)</label>
+                      <label className="text-sm text-gray-700">Name / note (optional)</label>
                       <input
                         value={customName}
                         onChange={(e) => setCustomName(e.target.value)}
-                        placeholder="เช่น ด.ช.ธีรภัทร หรือ Bus A"
+                        placeholder="e.g. Theeraphat or Bus A"
                         className="w-full rounded-lg border px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#8B0000]/30"
                       />
                     </div>
@@ -350,7 +355,7 @@ export default function Page() {
                       className="inline-flex items-center gap-2 rounded-lg bg-[#8B0000] px-4 py-2 text-white font-medium hover:bg-[#6B0000] transition"
                     >
                       <Plus className="h-4 w-4" />
-                      เพิ่มบัตรนี้
+                      Add this card
                     </button>
                     {status && <span className="text-sm text-gray-700">{status}</span>}
                   </div>
@@ -358,12 +363,12 @@ export default function Page() {
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-900">บัตรที่บันทึกล่าสุด</h3>
-                    <span className="text-xs text-gray-500">เก็บบนเบราว์เซอร์ สูงสุด 80 ใบ</span>
+                    <h3 className="text-lg font-semibold text-gray-900">Recently saved cards</h3>
+                    <span className="text-xs text-gray-500">Stored in the browser, up to 80 cards</span>
                   </div>
                   {cards.length === 0 ? (
                     <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-gray-500">
-                      ยังไม่มีการเพิ่มบัตร
+                      No cards added yet
                     </div>
                   ) : (
                     <div className="space-y-3 max-h-[480px] overflow-y-auto pr-1">
@@ -377,13 +382,13 @@ export default function Page() {
                             <div className="text-xs text-gray-600">UID: {card.uid}</div>
                             <div className="text-xs text-gray-600">ID: {card.id}</div>
                             <div className="text-[11px] text-gray-400">
-                              บันทึกเมื่อ {new Date(card.addedAt).toLocaleString("th-TH")}
+                              Saved {new Date(card.addedAt).toLocaleString("en-US", { timeZone: TIME_ZONE })}
                             </div>
                           </div>
                           <button
                             onClick={() => handleRemoveCard(idx)}
                             className="text-red-600 hover:text-red-700"
-                            title="ลบรายการนี้"
+                            title="Remove this entry"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>

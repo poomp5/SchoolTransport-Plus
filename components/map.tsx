@@ -73,7 +73,7 @@ const Map = () => {
                     className="w-6 h-6 mr-2"
                     alt="ตำแหน่งรถ"
                   />
-                  <span className="kanit">ตำแหน่งรถโรงเรียน</span>
+                  <span className="kanit">School Bus</span>
                 </div>
               </Popup>
             </Marker>

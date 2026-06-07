@@ -118,7 +118,7 @@ export default function Home() {
                           />
                           <div>
                             <div className="font-semibold text-gray-900">
-                              นายปุญญพัฒน์ กูลมนุญ
+                              {t("driver1")}
                             </div>
                             <div className="text-xs text-gray-500 md:hidden">
                               <div>ACT01 • กข 999</div>
@@ -173,7 +173,7 @@ export default function Home() {
                           />
                           <div>
                             <div className="font-semibold text-gray-900">
-                              นายอิงควัชร์ โอสนานนท์
+                              {t("driver2")}
                             </div>
                             <div className="text-xs text-gray-500 md:hidden">
                               <div>ACT02 • ฮว 123</div>
@@ -228,7 +228,7 @@ export default function Home() {
                           />
                           <div>
                             <div className="font-semibold text-gray-900">
-                              นายศรัณยพงศ์ อัญญธนากร
+                              {t("driver3")}
                             </div>
                             <div className="text-xs text-gray-500 md:hidden">
                               <div>ACT03 • ฮว 456</div>
@@ -283,7 +283,7 @@ export default function Home() {
                           />
                           <div>
                             <div className="font-semibold text-gray-900">
-                              นายณัฐสิทธิ์ มานะปิยวงศ์
+                              {t("driver4")}
                             </div>
                             <div className="text-xs text-gray-500 md:hidden">
                               <div>ACT04 • กอ 987</div>

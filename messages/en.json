@@ -181,7 +181,21 @@
     "more": "More",
     "onDuty": "On duty at {time}",
     "statusInTransit": "In transit",
-    "alerts": "Alerts"
+    "alerts": "Alerts",
+    "navOverview": "Overview",
+    "navRfidLog": "RFID Log",
+    "navSettings": "System Settings",
+    "navUsers": "User Settings",
+    "navEmergency": "Emergency",
+    "driver1": "Mr. Poonyapat Goonmanoon",
+    "driver2": "Mr. Ingkawat Osananont",
+    "driver3": "Mr. Saranyaphong Anyathanakorn",
+    "driver4": "Mr. Nattasit Manapiyawong",
+    "studentsCount": "{count} students",
+    "alertTireBlowout": "Tire blowout en route",
+    "alertOffRoute": "Driving off route",
+    "inspect": "Inspect",
+    "startCall": "Start call"
   },
   "driver": {
     "waitingCount": "{count} students",

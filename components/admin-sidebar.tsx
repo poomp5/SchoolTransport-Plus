@@ -4,33 +4,35 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Menu, X, Users, Settings, Bell, Radio } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const AdminSidebar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const sidebarRef = useRef<HTMLDivElement | null>(null);
     const pathname = usePathname(); // Get the current pathname
+    const t = useTranslations("admin");
 
     const navigationItems = [
-      { href: "/admin", icon: <Users className="h-5 w-5" />, label: "ภาพรวม" },
+      { href: "/admin", icon: <Users className="h-5 w-5" />, label: t("navOverview") },
       {
         href: "/admin/rfid",
         icon: <Radio className="h-5 w-5" />,
-        label: "RFID Log",
+        label: t("navRfidLog"),
       },
       {
         href: "/admin/settings",
         icon: <Settings className="h-5 w-5" />,
-        label: "ตั้งค่าระบบ",
+        label: t("navSettings"),
       },
       {
         href: "/admin/users",
         icon: <Users className="h-5 w-5" />,
-        label: "ตั้งค่าผู้ใช้งาน",
+        label: t("navUsers"),
       },
       {
         href: "/admin/alerts",
         icon: <Bell className="h-5 w-5" />,
-        label: "เหตุฉุกเฉิน",
+        label: t("navEmergency"),
       },
     ];
 
