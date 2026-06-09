@@ -231,7 +231,18 @@
     "totalBoardings": "Total boardings",
     "boardingsOut": "Boardings (outbound)",
     "boardingsBack": "Boardings (return)",
-    "avgWait": "Average wait time"
+    "avgWait": "Average wait time",
+    "myLocation": "My location",
+    "schoolBus": "School Bus",
+    "chartTitle": "Daily boarding statistics",
+    "chartYAxis": "Times",
+    "outbound": "Outbound",
+    "return": "Return",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri"
   },
   "auth": {
     "signInTitle": "Sign in",

@@ -1,13 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 // ใช้ dynamic import เพื่อเลี่ยง SSR error
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function UserBusChart() {
-  const [chartOptions] = useState<ApexCharts.ApexOptions>({
+  const t = useTranslations("status");
+
+  const chartOptions: ApexCharts.ApexOptions = {
     chart: {
       type: "line",
       toolbar: { show: false },
@@ -18,10 +20,10 @@ export default function UserBusChart() {
       width: 2,
     },
     xaxis: {
-      categories: ["จันทร์", "อังคาร", "พุธ", "พฤหัส", "ศุกร์"],
+      categories: [t("mon"), t("tue"), t("wed"), t("thu"), t("fri")],
     },
     yaxis: {
-      title: { text: "จำนวนครั้ง" },
+      title: { text: t("chartYAxis") },
     },
     colors: ["#1E90FF", "#FF7F50"],
     legend: {
@@ -31,23 +33,23 @@ export default function UserBusChart() {
       shared: true,
       intersect: false,
     },
-  });
+  };
 
-  const [series] = useState([
+  const series = [
     {
-      name: "ขาไป",
+      name: t("outbound"),
       data: [12, 14, 11, 15, 10],
     },
     {
-      name: "ขากลับ",
+      name: t("return"),
       data: [10, 13, 9, 14, 12],
     },
-  ]);
+  ];
 
   return (
     <div className="bg-white p-5 rounded-2xl shadow-md">
       <h3 className="text-lg font-semibold mb-3 text-gray-700">
-        สถิติการขึ้นรถรายวัน
+        {t("chartTitle")}
       </h3>
       <div className="relative w-full min-h-[250px]">
         <Chart

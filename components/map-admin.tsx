@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import "leaflet/dist/leaflet.css";
 
 type LatLng = [number, number];
@@ -54,6 +55,7 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
 const DEFAULT_CENTER: LatLng = [43.1160653, -77.5119079]; // St. John Fisher University
 
 const MapAdmin = () => {
+  const t = useTranslations("status");
   const [userLocation, setUserLocation] = useState<LatLng | null>(null);
   const [leaflet, setLeaflet] = useState<typeof import("leaflet") | null>(null);
   const [buses, setBuses] = useState<Bus[]>([]);
@@ -215,12 +217,12 @@ const makeBusIcon = (label: string) =>
               <div className="flex items-center">
                 <Image
                   src="/mylocation.png"
-                  alt="ตำแหน่งผู้ใช้"
+                  alt={t("myLocation")}
                   className="w-6 h-6 mr-2"
                   width={30}
                   height={30}
                 />
-                <span className="kanit">ตำแหน่งของฉัน</span>
+                <span className="kanit">{t("myLocation")}</span>
               </div>
             </Popup>
           </Marker>
@@ -229,7 +231,7 @@ const makeBusIcon = (label: string) =>
         {buses.map((b) => (
           <Marker key={b.id} position={b.pos} icon={makeBusIcon(b.id)}>
             <Popup>
-              <span className="kanit">School bus {b.id}</span>
+              <span className="kanit">{t("schoolBus")} {b.id}</span>
             </Popup>
           </Marker>
         ))}

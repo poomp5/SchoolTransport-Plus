@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import "leaflet/dist/leaflet.css";
 
 const MapContainer = dynamic(() => import("react-leaflet").then(mod => mod.MapContainer), { ssr: false });
@@ -11,6 +12,7 @@ const Marker = dynamic(() => import("react-leaflet").then(mod => mod.Marker), { 
 const Popup = dynamic(() => import("react-leaflet").then(mod => mod.Popup), { ssr: false });
 
 const Map = () => {
+    const t = useTranslations("status");
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
     const [busLocation] = useState<[number, number] | null>([43.1160653, -77.5119079]);
     const [leaflet, setLeaflet] = useState<typeof import("leaflet") | null>(null);
@@ -52,12 +54,12 @@ const Map = () => {
                 <div className="flex items-center">
                   <Image
                     src={"/mylocation.png"}
-                    alt="ตำแหน่งผู้ใช้"
+                    alt={t("myLocation")}
                     className="w-6 h-6 mr-2"
                     width={30}
                     height={30}
                   />
-                  <span className="kanit">ตำแหน่งของฉัน</span>
+                  <span className="kanit">{t("myLocation")}</span>
                 </div>
               </Popup>
             </Marker>
@@ -71,9 +73,9 @@ const Map = () => {
                     width={30}
                     height={30}
                     className="w-6 h-6 mr-2"
-                    alt="ตำแหน่งรถ"
+                    alt={t("schoolBus")}
                   />
-                  <span className="kanit">School Bus</span>
+                  <span className="kanit">{t("schoolBus")}</span>
                 </div>
               </Popup>
             </Marker>
