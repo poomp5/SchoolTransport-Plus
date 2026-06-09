@@ -275,7 +275,8 @@
     "statsTitle": "สถิติการใช้งานรถรับส่ง",
     "busStatus": "สถานะของรถ",
     "enRoute": "อยู่ในเส้นทาง",
-    "normal": "ปกติ"
+    "normal": "ปกติ",
+    "sampleDriver": "นายทดสอบ ระบบ"
   },
   "driverPages": {
     "serving": "กำลังให้บริการ",

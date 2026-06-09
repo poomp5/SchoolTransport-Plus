@@ -275,7 +275,8 @@
     "statsTitle": "Transport usage statistics",
     "busStatus": "Bus status",
     "enRoute": "En route",
-    "normal": "Normal"
+    "normal": "Normal",
+    "sampleDriver": "Mr. Test Driver"
   },
   "driverPages": {
     "serving": "On duty",

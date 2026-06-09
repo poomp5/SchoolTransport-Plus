@@ -76,7 +76,7 @@ export default function Page() {
               ACT07
             </span>
             <div>
-              <p className="text-gray-800 font-medium">นายทดสอบ ระบบ</p>
+              <p className="text-gray-800 font-medium">{o("sampleDriver")}</p>
               <p className="text-sm text-gray-500">{o("enRoute")}</p>
             </div>
           </div>
